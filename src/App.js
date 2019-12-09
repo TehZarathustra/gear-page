@@ -66,21 +66,22 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          {!loading && (<div style={{marginTop: '50px', fontSize: '34px'}}>Abandoned - Gear Wishlist: Molten Core</div>)}
-          {!loading && (<div style={{
+        {!loading && (<div style={{
             display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            position: 'fixed',
             background: 'white',
-            margin: '50px 0 10px 10px',
-            padding: '20px',
-            borderRadius: '5px'
+            padding: '5px',
+            width: '100%',
+            boxSizing: 'border-box'
           }}>
             <Autocomplete
               onChange={this.onItemChange}
               options={Object.keys(data)}
               value={selectedItem}
               getOptionLabel={option => option}
-              style={{ width: 300 }}
+              style={{ width: 300, margin: '5px' }}
               renderInput={params => (
                 <TextField {...params} label="Sort by item" variant="outlined" fullWidth />
               )}
@@ -91,12 +92,14 @@ class App extends Component {
               options={this.transformDataToPlayers(data)}
               value={selectedPlayer}
               getOptionLabel={option => option}
-              style={{ width: 300, marginLeft: '20px', color: 'white !important' }}
+              style={{ width: 300, margin: '5px', color: 'white !important' }}
               renderInput={params => (
                 <TextField {...params} label="Sort by player" variant="outlined" fullWidth />
               )}
             />
           </div>)}
+        <header className="App-header">
+          {!loading && !selectedItem && !selectedPlayer && (<div style={{marginTop: '150px', marginBottom: '20px', fontSize: '34px'}}>Abandoned - Gear Wishlist: Molten Core</div>)}
           {loading && (<CircularProgress />)}
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {!selectedItem && !selectedPlayer && Object.keys(data).map((key) => {
