@@ -98,7 +98,7 @@ class App extends Component {
             />
           </div>)}
           {loading && (<CircularProgress />)}
-          <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {!selectedItem && !selectedPlayer && Object.keys(data).map((key) => {
               return (
                 <Card
