@@ -19,11 +19,16 @@ const Card = (props) => {
 	          alignItems: 'center',
 	          justifyContent: 'center'
 	        }}>
-	          <div style={{
-	            backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg")`,
-	            width: '56px',
-	            height: '56px'
-	          }} />
+	          <a href={data.id ? `https://www.wowhead.com/item=${data.id}` : '#'}
+	          	 data-wowhead="domain=classic"
+	          	 target="_blank"
+	          >
+		          <div style={{
+		            backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg")`,
+		            width: '56px',
+		            height: '56px'
+		          }} />
+	          </a>
 	        </div>
 	        <div style={{
 	          fontSize: '16px',
