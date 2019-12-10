@@ -82,7 +82,7 @@ module.exports = {
 	'Dragonstalkers Legguards': 'inv_pants_03',
 	'Judement Legplates': 'inv_pants_04',
 	'Legplates of Wrath': 'inv_pants_04',
-	'Crown of Destuction': 'inv_crown_02',
+	'Crown of Destruction': 'inv_crown_02',
 	'Choker of the Firelord': 'inv_jewelry_amulet_05',
 	'Cloak of the Shrouded Mists': 'inv_misc_cape_17',
 	'Dragons Blood Cape': 'inv_misc_cape_08',
