@@ -6,15 +6,27 @@ const {
 	container,
 } = styles;
 
+function enrichPlayers(raid, dicts) {
+	return raid.map((player) => {
+		return dicts.players.find(({name}) => name === player) || player;
+	});
+}
+
+function playerListTemplate(raid, name) {
+	return (<div>
+	  <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{name}</div>
+	  {raid.map(player => player && (
+	  	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
+	</div>);
+}
+
 const Card = (props) => {
 	const {itemName, data, dicts} = props;
+	const dictedItem = dicts.items.find((dictItem) => dictItem.name === itemName);
 
-	const raid1 = data.raid1.map((player) => {
-		return dicts.players.find(({name}) => name === player) || player;
-	});
-	const raid2 = data.raid2.map((player) => {
-		return dicts.players.find(({name}) => name === player) || player;
-	});
+	console.log('dictedItem >', dictedItem);
+
+	const {id, icon} = dictedItem;
 
 	return (
 		<div className={container}>
@@ -27,12 +39,12 @@ const Card = (props) => {
 	          alignItems: 'center',
 	          justifyContent: 'center'
 	        }}>
-	          <a href={data.id ? `https://www.wowhead.com/item=${data.id}` : '#'}
+	          <a href={id ? `https://www.wowhead.com/item=${id}` : '#'}
 	          	 data-wowhead="domain=classic"
 	          	 target="_blank"
 	          >
 		          <div style={{
-		            backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg")`,
+		            backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg")`,
 		            width: '56px',
 		            height: '56px'
 		          }} />
@@ -53,16 +65,8 @@ const Card = (props) => {
 	        gridGap: '20%',
 	        padding: '5px'
 	      }}>
-	        <div>
-	          <div style={{fontWeight: 'bold', marginBottom: '5px'}}>1st raid</div>
-	          {raid1.map(player => player && (
-	          	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
-	        </div>
-	        <div>
-	          <div style={{fontWeight: 'bold', marginBottom: '5px'}}>2nd raid</div>
-	          {raid2.map(player => player && (
-	          	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
-	        </div>
+	        {playerListTemplate(enrichPlayers(data.raid1, dicts), '1st raid')}
+	        {playerListTemplate(enrichPlayers(data.raid2, dicts), '2nd raid')}
 	      </div>
 	    </div>
 	);

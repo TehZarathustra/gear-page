@@ -3,8 +3,6 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
 const {getRows} = require('./api/google-spreadsheet');
-const iconMapper = require('./api/icon-mapper');
-const idMapper = require('./api/id-mapper');
 const PORT = process.env.PORT || 3000;
 const SPREADSHEET_ID = '1HLqaVuc-BCdYG7ThguXs0b-mPriF6a0PFL8al12-5HE';
 
@@ -25,6 +23,11 @@ const SPREADSHEET_CONFIG_ONY = {
 const SPREADSHEET_CONFIG_PLAYERS = {
 	...SPREADSHEET_CONFIG,
 	range: 'Molten Core!A500:I530'
+};
+
+const SPREADSHEET_CONFIG_ITEMS = {
+	...SPREADSHEET_CONFIG,
+	range: 'Gear!AZ1:BC151'
 };
 
 const SPREADSHEET_FIELDS_INDEXES = {
@@ -52,8 +55,6 @@ function transformData(data, type) {
 
 		return {
 			item: itemName,
-			icon: iconMapper[itemName],
-			id: idMapper[itemName],
 			all: players.filter(p => p),
 			raid2: slicedPlayers.splice(raidSepCell).filter(p => p),
 			raid1: slicedPlayers.filter(p => p)
@@ -63,8 +64,6 @@ function transformData(data, type) {
 			all,
 			raid1,
 			raid2,
-			icon,
-			id,
 			type
 		};
 
@@ -95,16 +94,34 @@ function transformPlayersDict(players) {
 	}, []);
 }
 
+function transformItemsDict(dictItems) {
+ return dictItems.map((item) => {
+ 	const [name, icon, id, bosses] = item;
+
+ 	if (!name) {
+ 		return null;
+ 	}
+
+ 	return {
+ 		name,
+ 		icon: icon.replace(/\s/, ''),
+ 		id,
+ 		bosses: bosses && bosses.length && bosses.split(',')
+ 	};
+ }).filter(item => item);
+}
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/data', function (req, res) {
 	return Promise.all([
 			getRows(SPREADSHEET_CONFIG_MC),
 			getRows(SPREADSHEET_CONFIG_ONY),
-			getRows(SPREADSHEET_CONFIG_PLAYERS)
+			getRows(SPREADSHEET_CONFIG_PLAYERS),
+			getRows(SPREADSHEET_CONFIG_ITEMS)
 		])
 		.then((data) => {
-			const [mcData, OnyData, players] = data;
+			const [mcData, OnyData, players, items] = data;
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core'),
 				ony: transformData(OnyData, 'Onyxia')
@@ -114,7 +131,7 @@ app.get('/data', function (req, res) {
 				data: {...transformedData.mc, ...transformedData.ony},
 				dicts: {
 					players: transformPlayersDict(players),
-					items: {}
+					items: transformItemsDict(items)
 				}
 			});
 		})
