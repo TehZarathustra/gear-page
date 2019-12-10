@@ -85,8 +85,6 @@ function getNewToken(oAuth2Client, callback) {
 }
 
 /**
- * Prints the names and majors of students in a sample spreadsheet:
- * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  * @param {resolve} resolve
  * @param {reject} reject
@@ -98,7 +96,7 @@ function listRows(auth, resolve, reject, config) {
 
 	return sheets.spreadsheets.values.get({
 		spreadsheetId: id,
-		range: range,
+		range: range
 	}, (err, res) => {
 		if (err) return console.log('The API returned an error: ' + err);
 
@@ -115,7 +113,6 @@ function listRows(auth, resolve, reject, config) {
 }
 
 /**
- * Prints the names and majors of students in a sample spreadsheet:
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  * @param {resolve} resolve
  * @param {reject} reject

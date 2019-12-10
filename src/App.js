@@ -13,6 +13,7 @@ class App extends Component {
 
     this.state = {
       data: {},
+      dicts: {},
       selectedPlayer: '',
       selectedItem: '',
       selectedType: '',
@@ -28,7 +29,11 @@ class App extends Component {
     axios.get('/data')
       .then((response) => {
         console.log('response >', response);
-        this.setState({data: response.data.data, loading: false});
+        this.setState({
+          data: response.data.data,
+          loading: false,
+          dicts: response.data.dicts
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -76,6 +81,7 @@ class App extends Component {
   render () {
     const {
       data,
+      dicts,
       selectedItem,
       selectedPlayer,
       selectedType,
@@ -146,6 +152,7 @@ class App extends Component {
                   key={key}
                   data={data[key]}
                   itemName={key}
+                  dicts={dicts}
                 />
               );
             })}
@@ -155,6 +162,7 @@ class App extends Component {
                   key={key}
                   data={data[key]}
                   itemName={key}
+                  dicts={dicts}
                 />
               );
             })}
@@ -164,6 +172,7 @@ class App extends Component {
                   key={key}
                   data={data[key]}
                   itemName={key}
+                  dicts={dicts}
                 />
               );
             })}
@@ -173,6 +182,7 @@ class App extends Component {
                   key={key}
                   data={data[key]}
                   itemName={key}
+                  dicts={dicts}
                 />
               );
             })}

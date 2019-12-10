@@ -14,12 +14,17 @@ const SPREADSHEET_CONFIG = {
 
 const SPREADSHEET_CONFIG_MC = {
 	...SPREADSHEET_CONFIG,
-	range: 'Molten Core!B4:Z'
+	range: 'Molten Core!B4:Z260'
 };
 
 const SPREADSHEET_CONFIG_ONY = {
 	...SPREADSHEET_CONFIG,
 	range: 'Onyxia!B4:Z'
+};
+
+const SPREADSHEET_CONFIG_PLAYERS = {
+	...SPREADSHEET_CONFIG,
+	range: 'Molten Core!A500:I530'
 };
 
 const SPREADSHEET_FIELDS_INDEXES = {
@@ -40,10 +45,6 @@ function transformData(data, type) {
 		const players = [...item].splice(2);
 		const slicedPlayers = [...players];
 		const itemName = item[SPREADSHEET_FIELDS_INDEXES.item];
-
-		if (index > 259) {
-			return {};
-		}
 
 		return {
 			item: itemName,
@@ -67,18 +68,51 @@ function transformData(data, type) {
 	}, {});
 }
 
+function transformPlayersDict(players) {
+	if (!players || !players.length) {
+		return;
+	}
+
+	const classes = players[0];
+
+	return players.reduce((result, item, index) => {
+		if (index !== 0) {
+			item.forEach((player, index) => {
+				if (player) {
+					result.push({
+						name: player,
+						class: classes[index]
+					});
+				}
+			});
+		}
+
+		return result;
+	}, []);
+}
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/data', function (req, res) {
-	return Promise.all([getRows(SPREADSHEET_CONFIG_MC), getRows(SPREADSHEET_CONFIG_ONY)])
+	return Promise.all([
+			getRows(SPREADSHEET_CONFIG_MC),
+			getRows(SPREADSHEET_CONFIG_ONY),
+			getRows(SPREADSHEET_CONFIG_PLAYERS)
+		])
 		.then((data) => {
-			const [mcData, OnyData] = data;
+			const [mcData, OnyData, players] = data;
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core'),
 				ony: transformData(OnyData, 'Onyxia')
 			};
 
-			res.json({data: {...transformedData.mc, ...transformedData.ony}});
+			res.json({
+				data: {...transformedData.mc, ...transformedData.ony},
+				dicts: {
+					players: transformPlayersDict(players),
+					items: {}
+				}
+			});
 		})
 		.catch(error => {
 			console.log('error: ' + error);

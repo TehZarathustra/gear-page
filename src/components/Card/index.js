@@ -1,12 +1,20 @@
 import React from 'react';
 import styles from './Card.module.css'; 
+import colors from '../../utils/class-mapper';
 
 const {
 	container,
 } = styles;
 
 const Card = (props) => {
-	const {itemName, data} = props;
+	const {itemName, data, dicts} = props;
+
+	const raid1 = data.raid1.map((player) => {
+		return dicts.players.find(({name}) => name === player) || player;
+	});
+	const raid2 = data.raid2.map((player) => {
+		return dicts.players.find(({name}) => name === player) || player;
+	});
 
 	return (
 		<div className={container}>
@@ -47,11 +55,13 @@ const Card = (props) => {
 	      }}>
 	        <div>
 	          <div style={{fontWeight: 'bold', marginBottom: '5px'}}>1st raid</div>
-	          {data.raid1.map(player => (<div>{player}</div>))}
+	          {raid1.map(player => player && (
+	          	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
 	        </div>
 	        <div>
 	          <div style={{fontWeight: 'bold', marginBottom: '5px'}}>2nd raid</div>
-	          {data.raid2.map(player => (<div>{player}</div>))}
+	          {raid2.map(player => player && (
+	          	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
 	        </div>
 	      </div>
 	    </div>
