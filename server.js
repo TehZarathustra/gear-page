@@ -46,6 +46,10 @@ function transformData(data, type) {
 		const slicedPlayers = [...players];
 		const itemName = item[SPREADSHEET_FIELDS_INDEXES.item];
 
+		if (index > 260) {
+			return {};
+		}
+
 		return {
 			item: itemName,
 			icon: iconMapper[itemName],
