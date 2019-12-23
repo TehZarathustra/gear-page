@@ -17,12 +17,16 @@ class App extends Component {
       selectedPlayer: '',
       selectedItem: '',
       selectedType: '',
+      selectedBoss: '',
       loading: true
     }
 
     this.onItemChange = this.onItemChange.bind(this);
     this.onPlayerChange = this.onPlayerChange.bind(this);
     this.onTypeChange = this.onTypeChange.bind(this);
+    this.getBossesByItems = this.getBossesByItems.bind(this);
+    this.onBossChange = this.onBossChange.bind(this);
+    this.renderFilteredCards = this.renderFilteredCards.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +42,24 @@ class App extends Component {
       .catch(function (error) {
         console.log(error);
       });
+  }
+
+  getBossesByItems() {
+    const {dicts} = this.state;
+
+    if (!dicts.items) {
+      return [];
+    }
+
+    return Object.values(Object.values(dicts.items).reduce((result, item) => {
+      const {bosses} = item;
+
+      if (bosses) {
+        bosses.forEach((boss) => result[boss] = boss);
+      }
+
+      return result;
+    }, {}));
   }
 
   transformDataToPlayers(data) {
@@ -57,24 +79,68 @@ class App extends Component {
   onItemChange(e, item) {
     this.setState({
       selectedItem: item,
-      selectedPlayer: '',
-      selectedType: ''
     });
   }
 
   onPlayerChange(e, player) {
     this.setState({
-      selectedItem: '',
-      selectedType: '',
       selectedPlayer: player
     });
   }
 
   onTypeChange(e, type) {
     this.setState({
-      selectedItem: '',
       selectedType: type,
-      selectedPlayer: ''
+    });
+  }
+
+  onBossChange(e, boss) {
+    this.setState({
+      selectedBoss: boss
+    });
+  }
+
+  renderFilteredCards() {
+    const {
+      data,
+      dicts,
+      selectedItem,
+      selectedPlayer,
+      selectedType,
+      selectedBoss
+    } = this.state;
+
+    let mutableData = Object.values({...data});
+
+    if (selectedItem) {
+      mutableData = mutableData.filter(({item}) => item === selectedItem);
+    }
+
+    if (selectedPlayer) {
+      mutableData = mutableData.filter(item => item.all.includes(selectedPlayer));
+    }
+
+    if (selectedType) {
+      mutableData = mutableData.filter(item => item.type === selectedType);
+    }
+
+    if (selectedBoss) {
+      mutableData = mutableData.filter(item => item.bosses.includes(selectedBoss));
+    }
+
+    if (!mutableData.length) {
+      return (<div>Nothing found</div>);
+    };
+
+    return mutableData.map((card) => {
+      return (
+        <Card
+          key={card.item}
+          data={card}
+          itemName={card.item}
+          dicts={dicts}
+        />
+      );
     });
   }
 
@@ -85,6 +151,7 @@ class App extends Component {
       selectedItem,
       selectedPlayer,
       selectedType,
+      selectedBoss,
       loading
     } = this.state;
 
@@ -132,6 +199,17 @@ class App extends Component {
                 <TextField {...params} label="Sort by type" variant="outlined" fullWidth />
               )}
             />
+
+            <Autocomplete
+              onChange={this.onBossChange}
+              options={this.getBossesByItems()}
+              value={selectedBoss}
+              getOptionLabel={option => option}
+              style={{width: 300, margin: '5px'}}
+              renderInput={params => (
+                <TextField {...params} label="Sort by boss" variant="outlined" fullWidth />
+              )}
+            />
           </div>)}
         <header className="App-header">
           {!loading 
@@ -143,49 +221,7 @@ class App extends Component {
           }
           {loading && (<CircularProgress />)}
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-            {!selectedItem
-              && !selectedPlayer
-              && !selectedType
-              && Object.keys(data).map((key) => {
-              return (
-                <Card
-                  key={key}
-                  data={data[key]}
-                  itemName={key}
-                  dicts={dicts}
-                />
-              );
-            })}
-            {selectedItem && Object.keys(data).filter(data => data === selectedItem).map((key) => {
-              return (
-                <Card
-                  key={key}
-                  data={data[key]}
-                  itemName={key}
-                  dicts={dicts}
-                />
-              );
-            })}
-            {selectedPlayer && Object.keys(data).filter(item => data[item].all.includes(selectedPlayer)).map((key) => {
-              return (
-                <Card
-                  key={key}
-                  data={data[key]}
-                  itemName={key}
-                  dicts={dicts}
-                />
-              );
-            })}
-            {selectedType && Object.keys(data).filter(item => data[item].type === selectedType).map((key) => {
-              return (
-                <Card
-                  key={key}
-                  data={data[key]}
-                  itemName={key}
-                  dicts={dicts}
-                />
-              );
-            })}
+            {!loading && this.renderFilteredCards()}
           </div>
         </header>
       </div>

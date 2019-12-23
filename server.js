@@ -35,7 +35,7 @@ const SPREADSHEET_FIELDS_INDEXES = {
 	playersStart: 2
 };
 
-function transformData(data, type) {
+function transformData(data, type, transformedItems) {
 	const MC_RAID_SEP_CELL = 15;
 	const ONY_RAID_SEP_CELL = 11;
 	const raidMapper = {
@@ -53,19 +53,18 @@ function transformData(data, type) {
 			return {};
 		}
 
+		let dictedItem = transformedItems.find(titem => titem.name === itemName);
+
 		return {
 			item: itemName,
 			all: players.filter(p => p),
 			raid2: slicedPlayers.splice(raidSepCell).filter(p => p),
-			raid1: slicedPlayers.filter(p => p)
-		};
-	}).filter(({all, item}) => item && all.length).reduce((result, {item, all, raid1, raid2, icon, id}) => {
-		result[item] = {
-			all,
-			raid1,
-			raid2,
+			raid1: slicedPlayers.filter(p => p),
+			bosses: dictedItem && dictedItem.bosses,
 			type
 		};
+	}).filter(({all, item}) => item && all.length).reduce((result, newItem) => {
+		result[newItem.item] = {...newItem};
 
 		return result;
 	}, {});
@@ -122,16 +121,18 @@ app.get('/data', function (req, res) {
 		])
 		.then((data) => {
 			const [mcData, OnyData, players, items] = data;
+			const transformedItems = transformItemsDict(items);
+
 			const transformedData = {
-				mc: transformData(mcData, 'Molten Core'),
-				ony: transformData(OnyData, 'Onyxia')
+				mc: transformData(mcData, 'Molten Core', transformedItems),
+				ony: transformData(OnyData, 'Onyxia', transformedItems)
 			};
 
 			res.json({
 				data: {...transformedData.mc, ...transformedData.ony},
 				dicts: {
 					players: transformPlayersDict(players),
-					items: transformItemsDict(items)
+					items: transformedItems
 				}
 			});
 		})

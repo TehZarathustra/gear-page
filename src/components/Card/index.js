@@ -24,7 +24,9 @@ const Card = (props) => {
 	const {itemName, data, dicts} = props;
 	const dictedItem = dicts.items.find((dictItem) => dictItem.name === itemName);
 
-	console.log('dictedItem >', dictedItem);
+	if (!dictedItem) {
+		return (<div>none</div>);
+	}
 
 	const {id, icon} = dictedItem;
 
