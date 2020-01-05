@@ -20,6 +20,11 @@ const SPREADSHEET_CONFIG_ONY = {
 	range: 'Onyxia!B4:Z'
 };
 
+const SPREADSHEET_CONFIG_BWL = {
+	...SPREADSHEET_CONFIG,
+	range: 'Blackwing Lair!A2:Z139'
+};
+
 const SPREADSHEET_CONFIG_PLAYERS = {
 	...SPREADSHEET_CONFIG,
 	range: 'Molten Core!A500:I530'
@@ -27,7 +32,7 @@ const SPREADSHEET_CONFIG_PLAYERS = {
 
 const SPREADSHEET_CONFIG_ITEMS = {
 	...SPREADSHEET_CONFIG,
-	range: 'Gear!AZ1:BC151'
+	range: 'Gear!AZ1:BC284'
 };
 
 const SPREADSHEET_FIELDS_INDEXES = {
@@ -38,9 +43,12 @@ const SPREADSHEET_FIELDS_INDEXES = {
 function transformData(data, type, transformedItems) {
 	const MC_RAID_SEP_CELL = 15;
 	const ONY_RAID_SEP_CELL = 11;
+	const BWL_RAID_SEP_CELL = 11;
+
 	const raidMapper = {
 		'Molten Core': MC_RAID_SEP_CELL,
-		'Onyxia': ONY_RAID_SEP_CELL
+		'Onyxia': ONY_RAID_SEP_CELL,
+		'Blackwing Lair': BWL_RAID_SEP_CELL
 	};
 	const raidSepCell = raidMapper[type];
 
@@ -103,7 +111,7 @@ function transformItemsDict(dictItems) {
 
  	return {
  		name,
- 		icon: icon.replace(/\s/, ''),
+ 		icon: icon.replace(/\s/, '').toLowerCase(),
  		id,
  		bosses: bosses && bosses.length && bosses.split(',')
  	};
@@ -117,19 +125,25 @@ app.get('/data', function (req, res) {
 			getRows(SPREADSHEET_CONFIG_MC),
 			getRows(SPREADSHEET_CONFIG_ONY),
 			getRows(SPREADSHEET_CONFIG_PLAYERS),
-			getRows(SPREADSHEET_CONFIG_ITEMS)
+			getRows(SPREADSHEET_CONFIG_ITEMS),
+			getRows(SPREADSHEET_CONFIG_BWL)
 		])
 		.then((data) => {
-			const [mcData, OnyData, players, items] = data;
+			const [mcData, OnyData, players, items, bwlData] = data;
 			const transformedItems = transformItemsDict(items);
 
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
-				ony: transformData(OnyData, 'Onyxia', transformedItems)
+				ony: transformData(OnyData, 'Onyxia', transformedItems),
+				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems)
 			};
 
 			res.json({
-				data: {...transformedData.mc, ...transformedData.ony},
+				data: {
+					...transformedData.mc,
+					...transformedData.ony,
+					...transformedData.bwl
+				},
 				dicts: {
 					players: transformPlayersDict(players),
 					items: transformedItems
