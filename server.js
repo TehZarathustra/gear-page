@@ -40,7 +40,7 @@ const SPREADSHEET_FIELDS_INDEXES = {
 	playersStart: 2
 };
 
-function transformData(data, type, transformedItems) {
+function transformData(data, type, transformedItems, hasSeparator = true) {
 	const MC_RAID_SEP_CELL = 15;
 	const ONY_RAID_SEP_CELL = 11;
 	const BWL_RAID_SEP_CELL = 11;
@@ -53,7 +53,7 @@ function transformData(data, type, transformedItems) {
 	const raidSepCell = raidMapper[type];
 
 	return data.map((item, index) => {
-		const players = [...item].splice(2);
+		const players = [...item].splice(hasSeparator ? 2 : 1);
 		const slicedPlayers = [...players];
 		const itemName = item[SPREADSHEET_FIELDS_INDEXES.item];
 
@@ -135,7 +135,7 @@ app.get('/data', function (req, res) {
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
 				ony: transformData(OnyData, 'Onyxia', transformedItems),
-				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems)
+				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false)
 			};
 
 			res.json({
