@@ -37,6 +37,19 @@
   right: 40px;
 }
 
+.main-title {
+  margin-top: 150px;
+  margin-bottom: 20px;
+  font-size: 34px;
+}
+
+@media only screen and (max-device-width : 500px) {
+  .main-title {
+    margin-top: 40px;
+    font-size: 30px;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

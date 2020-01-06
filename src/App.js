@@ -231,7 +231,7 @@ class App extends Component {
           {!loading 
             && !selectedPlayer
             && !selectedItem
-            && (<div style={{marginTop: '150px', marginBottom: '20px', fontSize: '34px'}}>
+            && (<div className="main-title">
               {selectedType ? `Abandoned - Gear Wishlist (${selectedType})` : `Abandoned - Gear Wishlist`}
             </div>)
           }
