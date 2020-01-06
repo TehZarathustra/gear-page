@@ -18,7 +18,8 @@ class App extends Component {
       selectedItem: '',
       selectedType: '',
       selectedBoss: '',
-      loading: true
+      loading: true,
+      areFiltersHidden: false
     }
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -27,6 +28,7 @@ class App extends Component {
     this.getBossesByItems = this.getBossesByItems.bind(this);
     this.onBossChange = this.onBossChange.bind(this);
     this.renderFilteredCards = this.renderFilteredCards.bind(this);
+    this.toggleFilters = this.toggleFilters.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +44,12 @@ class App extends Component {
       .catch(function (error) {
         console.log(error);
       });
+  }
+
+  toggleFilters() {
+    const {areFiltersHidden} = this.state;
+
+    this.setState({areFiltersHidden: !areFiltersHidden});
   }
 
   getBossesByItems() {
@@ -152,64 +160,72 @@ class App extends Component {
       selectedPlayer,
       selectedType,
       selectedBoss,
-      loading
+      loading,
+      areFiltersHidden
     } = this.state;
 
     return (
       <div className="App">
         {!loading && (<div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
+            position: 'relative',
             position: 'fixed',
             background: 'white',
-            padding: '5px',
-            width: '100%',
-            boxSizing: 'border-box'
+            width: '100%'
           }}>
-            <Autocomplete
-              onChange={this.onItemChange}
-              options={Object.keys(data)}
-              value={selectedItem}
-              getOptionLabel={option => option}
-              style={{width: 300, margin: '5px'}}
-              renderInput={params => (
-                <TextField {...params} label="Sort by item" variant="outlined" fullWidth />
-              )}
-            />
+            <div style={{
+              display: areFiltersHidden ? 'none' : 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              padding: '5px',
+              boxSizing: 'border-box'
+            }}>
+              <Autocomplete
+                onChange={this.onItemChange}
+                options={Object.keys(data)}
+                value={selectedItem}
+                getOptionLabel={option => option}
+                style={{width: 300, margin: '5px'}}
+                renderInput={params => (
+                  <TextField {...params} label="Sort by item" variant="outlined" fullWidth />
+                )}
+              />
 
-            <Autocomplete
-              onChange={this.onPlayerChange}
-              options={this.transformDataToPlayers(data)}
-              value={selectedPlayer}
-              getOptionLabel={option => option}
-              style={{width: 300, margin: '5px'}}
-              renderInput={params => (
-                <TextField {...params} label="Sort by player" variant="outlined" fullWidth />
-              )}
-            />
+              <Autocomplete
+                onChange={this.onPlayerChange}
+                options={this.transformDataToPlayers(data)}
+                value={selectedPlayer}
+                getOptionLabel={option => option}
+                style={{width: 300, margin: '5px'}}
+                renderInput={params => (
+                  <TextField {...params} label="Sort by player" variant="outlined" fullWidth />
+                )}
+              />
 
-            <Autocomplete
-              onChange={this.onTypeChange}
-              options={['Onyxia', 'Molten Core', 'Blackwing Lair']}
-              value={selectedType}
-              getOptionLabel={option => option}
-              style={{width: 300, margin: '5px'}}
-              renderInput={params => (
-                <TextField {...params} label="Sort by type" variant="outlined" fullWidth />
-              )}
-            />
+              <Autocomplete
+                onChange={this.onTypeChange}
+                options={['Onyxia', 'Molten Core', 'Blackwing Lair']}
+                value={selectedType}
+                getOptionLabel={option => option}
+                style={{width: 300, margin: '5px'}}
+                renderInput={params => (
+                  <TextField {...params} label="Sort by type" variant="outlined" fullWidth />
+                )}
+              />
 
-            <Autocomplete
-              onChange={this.onBossChange}
-              options={this.getBossesByItems()}
-              value={selectedBoss}
-              getOptionLabel={option => option}
-              style={{width: 300, margin: '5px'}}
-              renderInput={params => (
-                <TextField {...params} label="Sort by boss" variant="outlined" fullWidth />
-              )}
-            />
+              <Autocomplete
+                onChange={this.onBossChange}
+                options={this.getBossesByItems()}
+                value={selectedBoss}
+                getOptionLabel={option => option}
+                style={{width: 300, margin: '5px'}}
+                renderInput={params => (
+                  <TextField {...params} label="Sort by boss" variant="outlined" fullWidth />
+                )}
+              />
+            </div>
+            <div className="hide-filters-button" onClick={this.toggleFilters}>
+              {areFiltersHidden ? 'Show filters' : 'Hide filters'}
+            </div>
           </div>)}
         <header className="App-header">
           {!loading 
