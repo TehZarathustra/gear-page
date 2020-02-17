@@ -67,8 +67,8 @@ const Card = (props) => {
 	        gridGap: '20%',
 	        padding: '5px'
 	      }}>
-	        {playerListTemplate(enrichPlayers(data.raid1, dicts), 'Sparkles')}
-	        {playerListTemplate(enrichPlayers(data.raid2, dicts), 'Rainbows')}
+	        {playerListTemplate(enrichPlayers(data.raid1, dicts), 'Sparkles ✨')}
+	        {playerListTemplate(enrichPlayers(data.raid2, dicts), 'Rainbows 🌈')}
 	      </div>
 	    </div>
 	);
