@@ -43,7 +43,7 @@ const SPREADSHEET_FIELDS_INDEXES = {
 function transformData(data, type, transformedItems, hasSeparator = true) {
 	const MC_RAID_SEP_CELL = 15;
 	const ONY_RAID_SEP_CELL = 11;
-	const BWL_RAID_SEP_CELL = 15;
+	const BWL_RAID_SEP_CELL = 14;
 
 	const raidMapper = {
 		'Molten Core': MC_RAID_SEP_CELL,
