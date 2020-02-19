@@ -147,7 +147,8 @@ app.get('/data', function (req, res) {
 				dicts: {
 					players: transformPlayersDict(players),
 					items: transformedItems
-				}
+				},
+				query: req.query
 			});
 		})
 		.catch(error => {

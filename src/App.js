@@ -32,13 +32,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/data')
+    const url = new URL(window.location.href);
+
+    axios.get(`/data${url.search}`)
       .then((response) => {
         console.log('response >', response);
         this.setState({
           data: response.data.data,
           loading: false,
-          dicts: response.data.dicts
+          dicts: response.data.dicts,
+          ...response.data.query
         });
       })
       .catch(function (error) {
@@ -109,6 +112,9 @@ class App extends Component {
   }
 
   renderFilteredCards() {
+    const history = window.history;
+    const parameters = [];
+
     const {
       data,
       dicts,
@@ -121,24 +127,32 @@ class App extends Component {
     let mutableData = Object.values({...data});
 
     if (selectedItem) {
+      parameters.push(`selectedItem=${selectedItem}`);
       mutableData = mutableData.filter(({item}) => item === selectedItem);
     }
 
     if (selectedPlayer) {
+      parameters.push(`selectedPlayer=${selectedPlayer}`);
       mutableData = mutableData.filter(item => item.all.includes(selectedPlayer));
     }
 
     if (selectedType) {
+      parameters.push(`selectedType=${selectedType}`);
       mutableData = mutableData.filter(item => item.type === selectedType);
     }
 
     if (selectedBoss) {
+      parameters.push(`selectedBoss=${selectedBoss}`);
       mutableData = mutableData.filter(item => item.bosses.includes(selectedBoss));
     }
 
     if (!mutableData.length) {
       return (<div>Nothing found</div>);
     };
+
+    if (parameters.length) {
+      history.pushState('', '', `?${parameters.join('&')}`);
+    }
 
     return mutableData.map((card) => {
       return (
