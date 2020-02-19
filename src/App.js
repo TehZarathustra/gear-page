@@ -152,6 +152,8 @@ class App extends Component {
 
     if (parameters.length) {
       history.pushState('', '', `?${parameters.join('&')}`);
+    } else {
+      history.pushState('', '', '/');
     }
 
     return mutableData.map((card) => {
