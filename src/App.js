@@ -219,7 +219,7 @@ class App extends Component {
 
               <Autocomplete
                 onChange={this.onTypeChange}
-                options={['Onyxia', 'Molten Core', 'Blackwing Lair']}
+                options={['Onyxia', 'Molten Core', 'Blackwing Lair', 'ZulGurub']}
                 value={selectedType}
                 getOptionLabel={option => option}
                 style={{width: 300, margin: '5px'}}

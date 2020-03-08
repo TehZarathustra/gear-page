@@ -25,6 +25,11 @@ const SPREADSHEET_CONFIG_BWL = {
 	range: 'Blackwing Lair!A2:Z139'
 };
 
+const SPREADSHEET_CONFIG_ZG = {
+	...SPREADSHEET_CONFIG,
+	range: 'ZulGurub!A2:Z59'
+};
+
 const SPREADSHEET_CONFIG_PLAYERS = {
 	...SPREADSHEET_CONFIG,
 	range: 'Molten Core!A500:I530'
@@ -32,7 +37,7 @@ const SPREADSHEET_CONFIG_PLAYERS = {
 
 const SPREADSHEET_CONFIG_ITEMS = {
 	...SPREADSHEET_CONFIG,
-	range: 'Gear!AZ1:BC284'
+	range: 'Gear!AZ1:BC350'
 };
 
 const SPREADSHEET_FIELDS_INDEXES = {
@@ -44,11 +49,13 @@ function transformData(data, type, transformedItems, hasSeparator = true) {
 	const MC_RAID_SEP_CELL = 15;
 	const ONY_RAID_SEP_CELL = 11;
 	const BWL_RAID_SEP_CELL = 16;
+	const ZG_RAID_SEP_CELL = 11;
 
 	const raidMapper = {
 		'Molten Core': MC_RAID_SEP_CELL,
 		'Onyxia': ONY_RAID_SEP_CELL,
-		'Blackwing Lair': BWL_RAID_SEP_CELL
+		'Blackwing Lair': BWL_RAID_SEP_CELL,
+		'ZulGurub': ZG_RAID_SEP_CELL
 	};
 	const raidSepCell = raidMapper[type];
 
@@ -126,23 +133,26 @@ app.get('/data', function (req, res) {
 			getRows(SPREADSHEET_CONFIG_ONY),
 			getRows(SPREADSHEET_CONFIG_PLAYERS),
 			getRows(SPREADSHEET_CONFIG_ITEMS),
-			getRows(SPREADSHEET_CONFIG_BWL)
+			getRows(SPREADSHEET_CONFIG_BWL),
+			getRows(SPREADSHEET_CONFIG_ZG)
 		])
 		.then((data) => {
-			const [mcData, OnyData, players, items, bwlData] = data;
+			const [mcData, OnyData, players, items, bwlData, zgData] = data;
 			const transformedItems = transformItemsDict(items);
 
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
 				ony: transformData(OnyData, 'Onyxia', transformedItems),
-				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false)
+				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false),
+				zg: transformData(zgData, 'ZulGurub', transformedItems),
 			};
 
 			res.json({
 				data: {
 					...transformedData.mc,
 					...transformedData.ony,
-					...transformedData.bwl
+					...transformedData.bwl,
+					...transformedData.zg
 				},
 				dicts: {
 					players: transformPlayersDict(players),
