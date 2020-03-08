@@ -144,7 +144,7 @@ app.get('/data', function (req, res) {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
 				ony: transformData(OnyData, 'Onyxia', transformedItems),
 				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false),
-				zg: transformData(zgData, 'ZulGurub', transformedItems),
+				zg: transformData(zgData, 'ZulGurub', transformedItems, false),
 			};
 
 			res.json({
