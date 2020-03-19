@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.module.css'; 
 import colors from '../../utils/class-mapper';
+import ItemTemplate from '../ItemTemplate';
 
 const {
 	container,
@@ -32,45 +33,23 @@ const Card = (props) => {
 
 	return (
 		<div className={container}>
-	      <div style={{color: '#a335ee', display: 'flex', alignItems: 'center'}}>
-	        <div style={{
-	          backgroundImage: 'url("https://wow.zamimg.com/images/Icon/large/border/default.png")',
-	          width: "68px",
-	          height: "68px",
-	          display: 'flex',
-	          alignItems: 'center',
-	          justifyContent: 'center'
-	        }}>
-	          <a href={id ? `https://www.wowhead.com/item=${id}` : '#'}
-	          	 data-wowhead="domain=classic"
-	          	 target="_blank"
-	          >
-		          <div style={{
-		            backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg")`,
-		            width: '56px',
-		            height: '56px'
-		          }} />
-	          </a>
-	        </div>
-	        <div style={{
-	          fontSize: '16px',
-	          marginLeft: '10px',
-	          fontWeight: 'bold',
-	          marginRight: '5px'
-	        }}>{itemName}</div>
-	      </div>
-	      <div style={{
-	        fontSize: '16px',
-	        display: 'grid',
-	        gridTemplateColumns: '40% 40%',
-	        textAlign: 'left',
-	        gridGap: '20%',
-	        padding: '5px'
-	      }}>
-	        {playerListTemplate(enrichPlayers(data.raid1, dicts), 'Sparkles ✨')}
-	        {playerListTemplate(enrichPlayers(data.raid2, dicts), 'Rainbows 🌈')}
-	      </div>
-	    </div>
+			<ItemTemplate
+				id={id}
+				icon={icon}
+				itemName={itemName}
+			/>
+			<div style={{
+				fontSize: '16px',
+				display: 'grid',
+				gridTemplateColumns: '40% 40%',
+				textAlign: 'left',
+				gridGap: '20%',
+				padding: '5px'
+			}}>
+				{playerListTemplate(enrichPlayers(data.raid1, dicts), 'Sparkles ✨')}
+				{playerListTemplate(enrichPlayers(data.raid2, dicts), 'Rainbows 🌈')}
+			</div>
+		</div>
 	);
 }
 
