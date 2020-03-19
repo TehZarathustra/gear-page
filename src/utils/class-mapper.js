@@ -6,5 +6,14 @@ module.exports = {
 	Priests: '#FFFFFF',
 	Paladins: '#F58CBA',
 	Druids: '#FF7D0A',
-	Warlocks: '#8787ED'
+	Warlocks: '#8787ED',
+
+	ROGUE: '#FFF569',
+	HUNGER: '#A9D271',
+	MAGE: '#40C7EB',
+	WARRIOR: '#C79C6E',
+	PRIEST: '#FFFFFF',
+	PALADIN: '#F58CBA',
+	DRUID: '#FF7D0A',
+	WARLOCK: '#8787ED'
 };
