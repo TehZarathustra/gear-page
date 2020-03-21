@@ -9,7 +9,7 @@ module.exports = {
 	Warlocks: '#8787ED',
 
 	ROGUE: '#FFF569',
-	HUNGER: '#A9D271',
+	HUNTER: '#A9D271',
 	MAGE: '#40C7EB',
 	WARRIOR: '#C79C6E',
 	PRIEST: '#FFFFFF',
