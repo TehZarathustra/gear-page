@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import logo from '../logo.svg';
-import '../App.css';
 import Card from '../components/Card';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -181,7 +179,7 @@ class Wishlist extends Component {
     } = this.state;
 
     return (
-      <div className="App">
+      <div>
         {!loading && (<div style={{
             position: 'relative',
             position: 'fixed',

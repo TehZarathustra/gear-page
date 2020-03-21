@@ -1,10 +1,10 @@
 import React from 'react';
 
 const ItemTemplate = (props) => {
-	const {id, itemName, icon} = props;
+	const {id, itemName, icon, spec} = props;
 
 	return (
-		<div style={{color: '#a335ee', display: 'flex', alignItems: 'center'}}>
+		<div style={{color: '#a335ee', display: 'flex', alignItems: 'center', position: 'relative'}}>
 			<div style={{
 				backgroundImage: 'url("https://wow.zamimg.com/images/Icon/large/border/default.png")',
 				width: "68px",
@@ -34,6 +34,7 @@ const ItemTemplate = (props) => {
 			>
 				{itemName}
 			</div>
+			{spec && (<div style={{position: 'absolute', top: '5px', left: '78px', color: '#fff', fontSize: '12px'}}>{spec}</div>)}
 		</div>
 	)
 }

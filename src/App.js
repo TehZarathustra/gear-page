@@ -2,10 +2,11 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
-import Wishlist from './wishlist';
+import './App.css';
+import Wishlist from './Wishlist';
+import RaidLog from './RaidLog';
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -19,7 +20,7 @@ import Wishlist from './wishlist';
 export default function App() {
 return (
   <Router>
-    <div>
+    <div className="App">
       {/*
         A <Switch> looks through all its children <Route>
         elements and renders the first one whose path
@@ -32,7 +33,7 @@ return (
           <Wishlist />
         </Route>
         <Route exact path="/kek">
-          <h1>kek</h1>
+          <RaidLog />
         </Route>
       </Switch>
     </div>
