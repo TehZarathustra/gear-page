@@ -1,4 +1,5 @@
 const {getRows} = require('../../api/google-spreadsheet');
+const moment = require('moment');
 const {
 	LOOT_CONFIG_SPARKLES,
 	nameIndex,
@@ -13,11 +14,24 @@ const {
 	raidIndex,
 	bossIndex
 } = require('./configs');
+const {SPREADSHEET_CONFIG_ITEMS} = require('../wishlist/configs');
 
-function transformEntryItem(item) {
+function transformEntryItem(item, itemList) {
+	let enrichedData = {};
+
+	const dictData = itemList.find(dictItem => dictItem[2] === item[itemIdIndex]);
+
+	if (dictData && dictData.length) {
+		const [itemName, icon, id] = dictData;
+
+		enrichedData = {
+			itemName, icon, id
+		};
+	}
+
 	return {
 		name: item[nameIndex],
-		date: item[dateIndex],
+		date: moment(item[dateIndex], 'DD/MM/YYYY').format('LL'),
 		time: item[timeIndex],
 		item: item[itemIndex],
 		itemId: item[itemIdIndex],
@@ -26,13 +40,14 @@ function transformEntryItem(item) {
 		votes: item[votesIndex],
 		class: item[classIndex],
 		raid: item[raidIndex],
-		boss: item[bossIndex]
+		boss: item[bossIndex],
+		...enrichedData
 	};
 }
 
-function transformLog(data) {
+function transformLog(data, itemList) {
 	return data.reduce((result, item) => {
-		const entry = transformEntryItem(item);
+		const entry = transformEntryItem(item, itemList);
 
 		if (!result[entry.name]) {
 			result[entry.name] = {
@@ -53,15 +68,16 @@ function getRaidLog(req, res) {
 
 	return Promise.all([
 			getRows(LOOT_CONFIG_SPARKLES),
+			getRows(SPREADSHEET_CONFIG_ITEMS)
 		])
 		.then((data) => {
-			const [lootLog] = data;
+			const [lootLog, itemList] = data;
 
 			if (player) {
-				return res.json(transformLog(lootLog)[`${player}-Ashbringer`]);
+				return res.json(transformLog(lootLog, itemList)[`${player}-Ashbringer`]);
 			}
 
-			return res.json(transformLog(lootLog));
+			return res.json(transformLog(lootLog, itemList));
 		});
 }
 
