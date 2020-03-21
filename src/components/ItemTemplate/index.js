@@ -34,7 +34,7 @@ const ItemTemplate = (props) => {
 			>
 				{itemName}
 			</div>
-			{spec && (<div style={{position: 'absolute', top: '5px', left: '78px', color: '#fff', fontSize: '12px'}}>{spec}</div>)}
+			{spec && (<div style={{position: 'absolute', top: '5px', left: '78px', color: '#fff', fontSize: '12px', whiteSpace: 'nowrap'}}>{spec}</div>)}
 		</div>
 	)
 }
