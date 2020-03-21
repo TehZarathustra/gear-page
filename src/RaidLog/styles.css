@@ -41,3 +41,10 @@
 .raidlog-summary__count {
 
 }
+
+.raidlog_loading {
+	align-items: center;
+	height: 100vh;
+	justify-content: center;
+	display: flex;
+}

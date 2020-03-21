@@ -63,7 +63,7 @@ function transformLog(data, itemList) {
 		}
 
 		return result;
-	}, {});
+	}, {raids: []});
 }
 
 function getRaidLog(req, res) {
@@ -75,12 +75,13 @@ function getRaidLog(req, res) {
 		])
 		.then((data) => {
 			const [lootLog, itemList] = data;
+			const transformedLog = transformLog(lootLog, itemList);
 
 			if (player) {
-				return res.json(transformLog(lootLog, itemList)[`${player}-Ashbringer`]);
+				return res.json(transformedLog[`${player}-Ashbringer`] || {raids: []});
 			}
 
-			return res.json(transformLog(lootLog, itemList));
+			return res.json(transformedLog);
 		});
 }
 
