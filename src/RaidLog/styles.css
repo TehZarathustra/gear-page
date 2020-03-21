@@ -1,0 +1,43 @@
+.raidlog {
+	/*background-color: #282c34;*/
+	text-align: left;
+	padding: 20px;
+}
+
+.raidlog__header {
+	margin-bottom: 30px;
+}
+
+.raidlog-list {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.raidlog-list__item {
+	
+}
+
+.raidlog-list__date {
+	margin-right: 20px;
+	font-size: 12px;
+	width: 70px;
+	text-align: left;
+	box-sizing: border-box;
+	padding-top: 5px;
+}
+
+.raidlog-list__id {
+
+}
+
+.raidlog-summary__item {
+	display: flex;
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+.raidlog-summary__heading {
+	width: 150px;
+}
+.raidlog-summary__count {
+
+}
