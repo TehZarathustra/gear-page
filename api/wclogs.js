@@ -4,7 +4,8 @@ const API_KEY = process.env.WCLOGS_KEY;
 
 const ZONE_MAPPER = {
 	mc: 1000,
-	bwl: 1001
+	ony: 1001,
+	bwl: 1002
 };
 
 function getParses(req, res) {
