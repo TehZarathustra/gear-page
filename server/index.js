@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 const getWishlistData = require('./wishlist');
 const getRaidLog = require('./raidLog');
+const {getParses, getRankings} = require('../api/wclogs');
 
 app.use(express.static(path.join(__dirname, '../build')));
 
@@ -27,6 +28,14 @@ app.get('/raid-log', function (req, res) {
 
 app.get('/raid-log/:player', function (req, res) {
 	return getRaidLog(req, res);
+});
+
+app.get('/parses/:zone/:player', function (req, res) {
+	return getParses(req, res);
+});
+
+app.get('/rankings/:zone/:player', function (req, res) {
+	return getRankings(req, res);
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
