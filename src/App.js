@@ -32,9 +32,7 @@ return (
         <Route exact path="/">
           <Wishlist />
         </Route>
-        <Route exact path="/kek">
-          <RaidLog />
-        </Route>
+        <Route exact path="/player/:name" component={RaidLog} />
       </Switch>
     </div>
   </Router>

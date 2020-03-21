@@ -17,7 +17,9 @@ function playerListTemplate(raid, name) {
 	return (<div>
 	  <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{name}</div>
 	  {raid.map(player => player && (
-	  	<div style={{color: colors[player.class]}}>{player.name || player}</div>))}
+	  	<div style={{color: colors[player.class]}}>
+	  		<a style={{textDecoration: 'none', color: 'inherit'}} href={`/player/${player.name || player}`}>{player.name || player}</a>
+	  	</div>))}
 	</div>);
 }
 

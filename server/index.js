@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
-app.get('/kek', function (req, res) {
+app.get('/player/:name', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
