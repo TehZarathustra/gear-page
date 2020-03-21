@@ -19,7 +19,8 @@ const {SPREADSHEET_CONFIG_ITEMS} = require('../wishlist/configs');
 function transformEntryItem(item, itemList) {
 	let enrichedData = {};
 
-	const dictData = itemList.find(dictItem => dictItem[2] === item[itemIdIndex]);
+	const dictData = itemList.find(dictItem => dictItem[2]
+		=== (item[itemIdIndex] === '18423' ? '18422' : item[itemIdIndex]));
 
 	if (dictData && dictData.length) {
 		const [itemName, icon, id] = dictData;
@@ -27,6 +28,8 @@ function transformEntryItem(item, itemList) {
 		enrichedData = {
 			itemName, icon, id
 		};
+	} else {
+		console.log('not found', item);
 	}
 
 	return {
