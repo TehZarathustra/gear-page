@@ -184,7 +184,9 @@ class Wishlist extends Component {
             position: 'relative',
             position: 'fixed',
             background: 'white',
-            width: '100%'
+            width: '100%',
+            zIndex: '2',
+            color: 'black'
           }}>
             <div style={{
               display: areFiltersHidden ? 'none' : 'flex',
