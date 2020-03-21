@@ -18,7 +18,7 @@ class RaidLog extends Component {
 	}
 
 	componentDidMount() {
-		axios.get(`raid-log/Villain`)
+		axios.get(`/raid-log/${this.props.match.params.name}`)
 			.then(data => this.setState(data));
 	}
 
@@ -37,7 +37,7 @@ class RaidLog extends Component {
 								<ItemTemplate
 									id={itemId}
 									itemName={itemName}
-									icon={icon.replace(/\s/, '').toLowerCase()}
+									icon={icon && icon.replace(/\s/, '').toLowerCase()}
 									spec={response}
 								/>
 							</div>
