@@ -10,12 +10,12 @@
   position: absolute;
 }
 
-.loader_sparkles:before {
+.loader_sparkles:before, .loader_sparkles_shuffled:before {
   content: '✨';
   font-size: 30px;
 }
 
-.loader_rainbows:before {
+.loader_rainbows:before, .loader_rainbows_shuffled:before {
   content: '🌈';
   font-size: 30px;
 }
@@ -27,6 +27,19 @@
 }
 
 .loader_rainbows {
+  opacity: 0;
+  animation-duration: 2s;
+  animation-name: pulse-rainbows;
+  animation-iteration-count: infinite;
+}
+
+.loader_rainbows_shuffled {
+  animation-duration: 2s;
+  animation-name: pulse-sparkles;
+  animation-iteration-count: infinite;
+}
+
+.loader_sparkles_shuffled {
   opacity: 0;
   animation-duration: 2s;
   animation-name: pulse-rainbows;
