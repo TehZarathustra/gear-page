@@ -103,7 +103,7 @@ function getRaidLog(req, res) {
 					}, {}));
 				}
 
-				return res.json(logByplayer || {raids: []});
+				return res.json(logByplayer || {raids: [], flatData: []});
 			}
 
 			return res.json(transformedLog);
