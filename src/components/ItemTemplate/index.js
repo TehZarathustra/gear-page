@@ -4,7 +4,7 @@ const ItemTemplate = (props) => {
 	const {id, itemName, icon, spec} = props;
 
 	return (
-		<div style={{color: '#a335ee', display: 'flex', alignItems: 'center', position: 'relative'}}>
+		<div style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
 			<div style={{
 				backgroundImage: 'url("https://wow.zamimg.com/images/Icon/large/border/default.png")',
 				width: "68px",
@@ -20,7 +20,8 @@ const ItemTemplate = (props) => {
 					<div style={{
 						backgroundImage: `url("https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg")`,
 						width: '56px',
-						height: '56px'
+						height: '56px',
+						backgroundColor: 'dimgray'
 					}} />
 				</a>
 			</div>
@@ -29,7 +30,8 @@ const ItemTemplate = (props) => {
 					fontSize: '16px',
 					marginLeft: '10px',
 					fontWeight: 'bold',
-					marginRight: '5px'
+					marginRight: '5px',
+					color: icon ? '#a335ee' : 'cornflowerblue'
 				}}
 			>
 				{itemName}
