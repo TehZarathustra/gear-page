@@ -32,9 +32,12 @@ function transformEntryItem(item, itemList) {
 		console.log('not found', item);
 	}
 
+	const momentDate = moment(item[dateIndex], 'DD/MM/YYYY');
+
 	return {
 		name: item[nameIndex],
-		date: moment(item[dateIndex], 'DD/MM/YYYY').format('LL'),
+		date: momentDate.format('LL'),
+		momentDate,
 		time: item[timeIndex],
 		item: item[itemIndex],
 		itemId: item[itemIdIndex],
@@ -49,7 +52,7 @@ function transformEntryItem(item, itemList) {
 }
 
 function transformLog(data, itemList) {
-	return data.reduce((result, item) => {
+	return Object.values(data.reduce((result, item) => {
 		const entry = transformEntryItem(item, itemList);
 
 		if (!result[entry.name]) {
@@ -63,7 +66,12 @@ function transformLog(data, itemList) {
 		}
 
 		return result;
-	}, {raids: []});
+	}, {raids: []})).map((item) => {
+		return {
+			...item,
+			raids: item.raids && item.raids.sort((a, b) => a.momentDate.diff(b.momentDate))
+		}
+	});
 }
 
 function getRaidLog(req, res) {
@@ -78,7 +86,24 @@ function getRaidLog(req, res) {
 			const transformedLog = transformLog(lootLog, itemList);
 
 			if (player) {
-				return res.json(transformedLog[`${player}-Ashbringer`] || {raids: []});
+				const logByplayer = transformedLog.find(item => item.name === `${player}-Ashbringer`);
+
+				if (logByplayer) {
+					logByplayer.flatData = [...logByplayer.raids];
+					logByplayer.raids = Object.values(logByplayer.raids.reduce((result, item) => {
+						if (result[item.date]) {
+							const itemToSpread = Array.isArray(result[item.date]) ? result[item.date] : [result[item.date]];
+
+							result[item.date] = [...itemToSpread, item];
+						} else {
+							result[item.date] = item;
+						}
+
+						return result;
+					}, {}));
+				}
+
+				return res.json(logByplayer || {raids: []});
 			}
 
 			return res.json(transformedLog);
