@@ -1,0 +1,84 @@
+.loader {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.loader__item {
+  position: absolute;
+}
+
+.loader_sparkles:before {
+  content: '✨';
+  font-size: 60px;
+}
+
+.loader_rainbows:before {
+  content: '🌈';
+  font-size: 60px;
+}
+
+.loader_sparkles {
+  animation-duration: 2s;
+  animation-name: pulse-sparkles;
+  animation-iteration-count: infinite;
+}
+
+.loader_rainbows {
+  opacity: 0;
+  animation-duration: 2s;
+  animation-name: pulse-rainbows;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse-sparkles {
+  0% {
+    transform: scale(.9);
+    opacity: 1;
+  }
+  
+  30% {
+    transform: scale(1.3);
+  }
+  
+  40% {
+    transform: scale(.8);
+    opacity: 1;
+  }
+  
+  50% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-rainbows {
+  0% {
+    opacity: 0;
+  }
+  
+  50% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  
+  80% {
+    transform: scale(1.2);
+  }
+  
+  90% {
+    transform: scale(.8);
+    opacity: 1;
+  }
+  
+  100% {
+    transform: scale(.9);
+    opacity: 0
+  }
+}

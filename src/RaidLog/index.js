@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loader from '../components/Loader';
 import ItemTemplate from '../components/ItemTemplate';
 import classMapper from '../utils/class-mapper';
 import './styles.css';
@@ -123,7 +123,7 @@ class RaidLog extends Component {
 
 		return (
 			<div>
-				{loading && (<div className="raidlog_loading"><CircularProgress /></div>)}
+				{loading && (<div className="raidlog_loading"><Loader /></div>)}
 				{!loading && raids.length > 0 && (<div className="raidlog">
 					<div className="raidlog__header">
 						<h1 style={{color: classMapper[data.class]}}>{data.name}</h1>

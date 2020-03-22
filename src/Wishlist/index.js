@@ -3,7 +3,7 @@ import axios from 'axios';
 import Card from '../components/Card';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loader from '../components/Loader';
 
 class Wishlist extends Component {
   constructor(props) {
@@ -251,7 +251,7 @@ class Wishlist extends Component {
               {selectedType ? `Abandoned - Gear Wishlist (${selectedType})` : `Abandoned - Gear Wishlist`}
             </div>)
           }
-          {loading && (<CircularProgress />)}
+          {loading && (<Loader />)}
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {!loading && this.renderFilteredCards()}
           </div>
