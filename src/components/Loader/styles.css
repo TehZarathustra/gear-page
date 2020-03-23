@@ -11,13 +11,23 @@
 }
 
 .loader_sparkles:before, .loader_sparkles_shuffled:before {
-  content: '✨';
+  content: '';
+  background-image: url('./sparkles.png');
+  background-size: 100%;
+  width: 30px;
+  height: 30px;
   font-size: 30px;
+  display: block;
 }
 
 .loader_rainbows:before, .loader_rainbows_shuffled:before {
-  content: '🌈';
+  content: '';
+  background-image: url('./rainbow.png');
+  background-size: 100%;
+  width: 30px;
+  height: 30px;
   font-size: 30px;
+  display: block;
 }
 
 .loader_sparkles {
