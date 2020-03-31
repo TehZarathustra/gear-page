@@ -80,21 +80,14 @@ class RaidLog extends Component {
 
 	renderRankings() {
 		const {rankings} = this.state.data;
+		const SPECS = ['Balance', 'DPS', 'Healer', 'Tank', 'Feral'];
 
 		return (
 			<div style={{marginTop: '60px', marginLeft: '20px'}}>
 				<h2>Best performance</h2>
-				{this.renderRankingsBySpec('DPS', 'bwl', rankings)}
-				{this.renderRankingsBySpec('Tank', 'bwl', rankings)}
-				{this.renderRankingsBySpec('Healer', 'bwl', rankings)}
-
-				{this.renderRankingsBySpec('DPS', 'mc', rankings)}
-				{this.renderRankingsBySpec('Tank', 'mc', rankings)}
-				{this.renderRankingsBySpec('Healer', 'mc', rankings)}
-
-				{this.renderRankingsBySpec('DPS', 'ony', rankings)}
-				{this.renderRankingsBySpec('Tank', 'ony', rankings)}
-				{this.renderRankingsBySpec('Healer', 'ony', rankings)}
+				{SPECS.map(spec => this.renderRankingsBySpec(spec, 'bwl', rankings))}
+				{SPECS.map(spec => this.renderRankingsBySpec(spec, 'mc', rankings))}
+				{SPECS.map(spec => this.renderRankingsBySpec(spec, 'ony', rankings))}
 			</div>
 		);
 	}
