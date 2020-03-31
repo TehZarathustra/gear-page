@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
+const morgan = require('morgan');
 const PORT = process.env.PORT || 3000;
 
 const getWishlistData = require('./wishlist');
@@ -9,12 +10,17 @@ const getRaidLog = require('./raidLog');
 const {getParses, getRankings} = require('../api/wclogs');
 
 app.use(express.static(path.join(__dirname, '../build')));
+app.use(morgan('combined'));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.get('/player/:name', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+app.get('/players', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 

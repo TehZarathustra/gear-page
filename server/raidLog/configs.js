@@ -4,7 +4,7 @@ const SPREADSHEET_CONFIG_SPARKLES = {
 
 const LOOT_CONFIG_SPARKLES = {
 	...SPREADSHEET_CONFIG_SPARKLES,
-	range: 'Sheet1!A2:K1000'
+	range: 'Sheet1!A2:K10000'
 };
 
 const INDEXES = {
