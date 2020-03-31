@@ -60,7 +60,7 @@ class RaidLog extends Component {
 		const {rankings} = this.state.data;
 
 		return (
-			<div style={{marginTop: '60px'}}>
+			<div style={{marginTop: '60px', marginLeft: '20px'}}>
 				<h2>Best performance</h2>
 				<RankingsCard
 					title="Blackwing Lair"
