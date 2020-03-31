@@ -182,10 +182,9 @@ class Wishlist extends Component {
         {!loading && (<div style={{
             position: 'relative',
             position: 'fixed',
-            background: 'white',
+            background: 'black',
             width: '100%',
             zIndex: '2',
-            color: 'black'
           }}>
             <div style={{
               display: areFiltersHidden ? 'none' : 'flex',
