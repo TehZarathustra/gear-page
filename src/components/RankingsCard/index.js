@@ -72,7 +72,7 @@ const RankingsCard = (props) => {
 						);
 					})}
 				</div>
-				{!props.noAverage && (<div className="rankings__average" style={{color: averagePerformanceColor}}>
+				{data.length > 1 && (<div className="rankings__average" style={{color: averagePerformanceColor}}>
 					{averagePerformance.toFixed(1)}
 				</div>)}
 			</div>

@@ -56,28 +56,45 @@ class RaidLog extends Component {
 		);
 	}
 
+	renderRankingsBySpec(spec, instance, rankings) {
+		const TITLES = {
+			mc: `Molten Core (${spec})`,
+			bwl: `Blackwing Lair (${spec})`,
+			ony: `Onyxia (${spec})`
+		};
+
+		const data = rankings[instance].filter((item) => item.spec === spec);
+
+		if (!data.length) {
+			return null;
+		}
+
+		return (
+			<RankingsCard
+				title={TITLES[instance]}
+				data={data}
+				style={{marginBottom: '20px'}}
+			/>
+		);
+	}
+
 	renderRankings() {
 		const {rankings} = this.state.data;
 
 		return (
 			<div style={{marginTop: '60px', marginLeft: '20px'}}>
 				<h2>Best performance</h2>
-				<RankingsCard
-					title="Blackwing Lair"
-					data={rankings.bwl}
-					style={{marginBottom: '20px'}}
-				/>
-				<RankingsCard
-					title="Molten Core"
-					data={rankings.mc}
-					style={{marginBottom: '20px'}}
-				/>
-				<RankingsCard
-					title="Onyxia"
-					data={rankings.ony}
-					style={{marginBottom: '20px'}}
-					noAverage
-				/>
+				{this.renderRankingsBySpec('DPS', 'bwl', rankings)}
+				{this.renderRankingsBySpec('Tank', 'bwl', rankings)}
+				{this.renderRankingsBySpec('Healer', 'bwl', rankings)}
+
+				{this.renderRankingsBySpec('DPS', 'mc', rankings)}
+				{this.renderRankingsBySpec('Tank', 'mc', rankings)}
+				{this.renderRankingsBySpec('Healer', 'mc', rankings)}
+
+				{this.renderRankingsBySpec('DPS', 'ony', rankings)}
+				{this.renderRankingsBySpec('Tank', 'ony', rankings)}
+				{this.renderRankingsBySpec('Healer', 'ony', rankings)}
 			</div>
 		);
 	}
