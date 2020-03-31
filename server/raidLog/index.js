@@ -1,5 +1,6 @@
 const {getRows} = require('../../api/google-spreadsheet');
 const moment = require('moment');
+const axios = require('axios');
 const {
 	LOOT_CONFIG_SPARKLES,
 	nameIndex,
@@ -29,7 +30,7 @@ function transformEntryItem(item, itemList) {
 			itemName, icon, id
 		};
 	} else {
-		console.log('not found', item);
+		// console.log('not found', item);
 	}
 
 	const momentDate = moment(item[dateIndex], 'DD/MM/YYYY');
@@ -74,15 +75,24 @@ function transformLog(data, itemList) {
 	});
 }
 
+function getPlayerRankings(player, zone, req) {
+	const url = `http://${req.headers.host}/rankings/${zone}/${player}`;
+
+	return axios.get(url);
+}
+
 function getRaidLog(req, res) {
 	const player = req.param('player');
 
 	return Promise.all([
 			getRows(LOOT_CONFIG_SPARKLES),
-			getRows(SPREADSHEET_CONFIG_ITEMS)
+			getRows(SPREADSHEET_CONFIG_ITEMS),
+			player ? getPlayerRankings(player, 'bwl', req) : null,
+			player ? getPlayerRankings(player, 'mc', req) : null,
+			player ? getPlayerRankings(player, 'ony', req) : null,
 		])
 		.then((data) => {
-			const [lootLog, itemList] = data;
+			const [lootLog, itemList, bwlRankings, mcRankings, onyRankings] = data;
 			const transformedLog = transformLog(lootLog, itemList);
 
 			if (player) {
@@ -101,6 +111,12 @@ function getRaidLog(req, res) {
 
 						return result;
 					}, {}));
+
+					logByplayer.rankings = {
+						mc: mcRankings.data,
+						bwl: bwlRankings.data,
+						ony: onyRankings.data
+					};
 				}
 
 				return res.json(logByplayer || {raids: [], flatData: []});

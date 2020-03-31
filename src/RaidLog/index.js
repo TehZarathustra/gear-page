@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import ItemTemplate from '../components/ItemTemplate';
+import RankingsCard from '../components/RankingsCard';
 import classMapper from '../utils/class-mapper';
 import './styles.css';
 
@@ -51,6 +52,32 @@ class RaidLog extends Component {
 						</div>
 					);
 				})}
+			</div>
+		);
+	}
+
+	renderRankings() {
+		const {rankings} = this.state.data;
+
+		return (
+			<div style={{marginTop: '60px'}}>
+				<h2>Best performance</h2>
+				<RankingsCard
+					title="Blackwing Lair"
+					data={rankings.bwl}
+					style={{marginBottom: '20px'}}
+				/>
+				<RankingsCard
+					title="Molten Core"
+					data={rankings.mc}
+					style={{marginBottom: '20px'}}
+				/>
+				<RankingsCard
+					title="Onyxia"
+					data={rankings.ony}
+					style={{marginBottom: '20px'}}
+					noAverage
+				/>
 			</div>
 		);
 	}
@@ -125,18 +152,23 @@ class RaidLog extends Component {
 			<div>
 				{loading && (<div className="raidlog_loading"><Loader /></div>)}
 				{!loading && raids.length > 0 && (<div className="raidlog">
-					<div className="raidlog__header">
-						<h1 style={{color: classMapper[data.class]}}>{data.name}</h1>
-
+					<div style={{display: 'flex'}}>
 						<div>
-							{RaidLog.renderSummaryTemplate('Total items', (flatData || raids).length)}
-							{RaidLog.renderSummaryTemplate('Mainspec', MSItems.length)}
-							{RaidLog.renderSummaryTemplate('Offspec', OSItems.length)}
-							{RaidLog.renderSummaryTemplate('Molten Core', MSItems.length)}
-							{RaidLog.renderSummaryTemplate('Blackwing Lair', BWLItems.length)}
+							<div className="raidlog__header">
+								<h1 style={{color: classMapper[data.class]}}>{data.name}</h1>
+
+								<div>
+									{RaidLog.renderSummaryTemplate('Total items', (flatData || raids).length)}
+									{RaidLog.renderSummaryTemplate('Mainspec', MSItems.length)}
+									{RaidLog.renderSummaryTemplate('Offspec', OSItems.length)}
+									{RaidLog.renderSummaryTemplate('Molten Core', MSItems.length)}
+									{RaidLog.renderSummaryTemplate('Blackwing Lair', BWLItems.length)}
+								</div>
+							</div>
+							{this.renderLogs()}
 						</div>
+						{this.renderRankings()}
 					</div>
-					{this.renderLogs()}
 				</div>)}
 				{!loading && !raids.length && (<div className="raidlog_loading">No data for {player} yet</div>)}
 			</div>

@@ -34,7 +34,6 @@ class Wishlist extends Component {
 
     axios.get(`/data${url.search}`)
       .then((response) => {
-        console.log('response >', response);
         this.setState({
           data: response.data.data,
           loading: false,
