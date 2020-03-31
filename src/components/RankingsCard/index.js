@@ -41,7 +41,7 @@ function getPercentileColor(percentile) {
 }
 
 const RankingsCard = (props) => {
-	const {title, data} = props;
+	const {title, data, theme} = props;
 	const averagePerformance = data.length
 		&& data.reduce((a, b) => {
 				return a + Number(b.percentile.toFixed(0))
@@ -49,11 +49,26 @@ const RankingsCard = (props) => {
 	const averagePerformanceColor = averagePerformance
 		&& getPercentileColor(averagePerformance);
 
+	const averagePerformanceClasses = classNames({
+		rankings__average: true,
+		[`rankings__average_${theme}`]: theme
+	});
+
+	const itemsClasses = classNames({
+		rankings__items: true,
+		[`rankings__items_${theme}`]: theme
+	});
+
+	const titleClasses = classNames({
+		rankings__title: true,
+		[`rankings__title_${theme}`]: theme
+	});
+
 	return (
 		<div style={props.style}>
-			{title && (<div className="rankings__title">{title}</div>)}
-			<div style={{display: 'flex', alignItems: 'center'}}>
-				<div className="rankings__items">
+			{title && (<div className={titleClasses}>{title}</div>)}
+			<div style={{display: 'flex', alignItems: theme === 'compact' ? 'initial' : 'center'}}>
+				<div className={itemsClasses}>
 					{data.map((item) => {
 						const {encounterName, percentile} = item;
 						const imageName = encounterName.replace(/\s/g, '');
@@ -61,18 +76,29 @@ const RankingsCard = (props) => {
 
 						const imageClasses = classNames({
 							rankings__image: true,
-							[`rankings_${imageName}`]: true
+							[`rankings_${imageName}`]: true,
+							[`rankings__image_${theme}`]: theme
+						});
+
+						const itemClasses = classNames({
+							rankings__item: true,
+							[`rankings__item_${theme}`]: theme
 						});
 
 						return (
-							<div className="rankings__item">
+							<div className={itemClasses}>
 								<div className={imageClasses} />
-								<div className="rankings__percentile" style={{color: percentileColor}}>{percentile.toFixed(2)}</div>
+								<div
+									className="rankings__percentile"
+									style={{color: percentileColor}}
+								>
+									{percentile.toFixed(theme === 'compact' ? 0 : 2)}
+								</div>
 							</div>
 						);
 					})}
 				</div>
-				{data.length > 1 && (<div className="rankings__average" style={{color: averagePerformanceColor}}>
+				{data.length > 1 && (<div className={averagePerformanceClasses} style={{color: averagePerformanceColor}}>
 					{averagePerformance.toFixed(1)}
 				</div>)}
 			</div>

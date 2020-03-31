@@ -24,6 +24,10 @@ app.get('/players', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
+app.get('/ranks', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
 app.get('/data', function (req, res) {
 	return getWishlistData(req, res);
 });

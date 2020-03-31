@@ -1,0 +1,57 @@
+.player-card {
+	width: 400px;
+	min-height: 190px;
+	border-radius: 5px;
+	background: rgba(0,0,0,.5);
+	display: flex;
+	justify-content: center;
+	margin: 5px;
+	position: relative;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.player-card__close {
+	position: absolute;
+	top: 8px;
+	right: 5px;
+	cursor: pointer;
+	opacity: .5;
+	transition: all 1s ease-in-out;
+}
+
+.player-card__close:hover {
+	opacity: 1;
+}
+
+.player-card__specs {
+	position: absolute;
+	top: 0;
+	left: 10px;
+	flex-direction: row !important;
+}
+
+.player-card__rankings {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 30px;
+}
+
+.player-card__name {
+	font-size: 22px;
+	font-weight: bold;
+	text-decoration: none;
+	text-transform: capitalize;
+}
+
+.player-card__loader {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.player-card__class {
+	text-align: left;
+	font-size: 14px;
+	opacity: .8;
+}
