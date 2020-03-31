@@ -7,7 +7,7 @@ import {
 import './App.css';
 import Wishlist from './Wishlist';
 import RaidLog from './RaidLog';
-import Players from './Players';
+// import Players from './Players';
 import Ranks from './Ranks';
 import {ThemeProvider} from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
@@ -44,7 +44,7 @@ return (
             <Wishlist />
           </Route>
           <Route exact path="/player/:name" component={RaidLog} />
-          <Route exact path="/players" component={Players} />
+          {/*<Route exact path="/players" component={Players} />*/}
           <Route exact path="/ranks" component={Ranks} />
         </Switch>
       </div>
