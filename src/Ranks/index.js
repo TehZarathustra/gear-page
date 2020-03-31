@@ -19,7 +19,6 @@ class Ranks extends Component {
 		};
 
 		this.onPlayerChange = this.onPlayerChange.bind(this);
-		// this.onPlayerAdd = this.onPlayerAdd.bind(this);
 		this.onPlayerClose = this.onPlayerClose.bind(this);
 	}
 
@@ -34,12 +33,6 @@ class Ranks extends Component {
 			this.setState({players: [...players, item], selectedPlayer: ''});
 		});
 	}
-
-	// onPlayerAdd() {
-	// 	const {players, selectedPlayer} = this.state;
-
-	// 	this.setState({players: [...players, selectedPlayer], selectedPlayer: ''});
-	// }
 
 	onPlayerClose(name) {
 		const {players} = this.state;

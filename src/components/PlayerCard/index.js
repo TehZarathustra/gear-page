@@ -22,7 +22,8 @@ class PlayerCard extends Component {
 			loading: true,
 			spec: '',
 			loot: [],
-			name: props.id
+			name: props.id,
+			error: ''
 		};
 
 		this.onClose = this.onClose.bind(this);
@@ -34,7 +35,10 @@ class PlayerCard extends Component {
 		const {name} = this.state;
 
 		axios.get(`/rankings/bwl/${name}/`)
-			.then(({data}) => this.setState({data: data, loading: false}));
+			.then(({data}) => this.setState({data: data, loading: false}))
+			.catch(() => this.setState({error: 'Something went wrong', loading: false}, () => {
+				setTimeout(() => this.onClose(), 3000);
+			}));
 	}
 
 	onClose() {
@@ -47,10 +51,6 @@ class PlayerCard extends Component {
 
 	renderRankings() {
 		const {data, spec} = this.state;
-
-		if (!data) {
-			return;
-		}
 
 		const specs = Object.values(data.reduce((result, item) => {
 			result[item.spec] = item.spec;
@@ -115,12 +115,13 @@ class PlayerCard extends Component {
 	}
 
 	render() {
-		const {loading, name} = this.state;
+		const {loading, name, error} = this.state;
 
 		return (
 			<div className="player-card">
 				{loading && (<div className="player-card__loader"><Loader /></div>)}
-				{!loading && (this.renderCard())}
+				{!loading && !error && (this.renderCard())}
+				{error && (<div className="player-card__loader">{error}</div>)}
 			</div>
 		);
 	}

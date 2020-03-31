@@ -16,7 +16,7 @@ function getParses(req, res) {
 
 	return axios.get(url)
 		.then(data => res.json(data.data))
-		.catch(error => res.json(error))
+		.catch(error => res.status(400).json(error));
 }
 
 function getRankings(req, res) {
@@ -27,7 +27,7 @@ function getRankings(req, res) {
 
 	return axios.get(url)
 		.then(data => res.json(data.data))
-		.catch(error => res.json(error))
+		.catch(error => res.status(400).json(error));
 }
 
 module.exports = {
