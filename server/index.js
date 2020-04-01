@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const PORT = process.env.PORT || 3000;
 
 const getWishlistData = require('./wishlist');
-const getRaidLog = require('./raidLog');
+const {getRaidLog, getItemsByPlayer} = require('./raidLog');
 const {getParses, getRankings} = require('../api/wclogs');
 
 app.use(express.static(path.join(__dirname, '../build')));
@@ -34,6 +34,10 @@ app.get('/data', function (req, res) {
 
 app.get('/raid-log', function (req, res) {
 	return getRaidLog(req, res);
+});
+
+app.get('/items/:player', function (req, res) {
+	return getItemsByPlayer(req, res);
 });
 
 app.get('/raid-log/:player', function (req, res) {

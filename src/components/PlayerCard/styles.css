@@ -1,5 +1,5 @@
 .player-card {
-	width: 400px;
+	width: 410px;
 	min-height: 190px;
 	border-radius: 5px;
 	background: rgba(0,0,0,.5);
@@ -54,4 +54,29 @@
 	text-align: left;
 	font-size: 14px;
 	opacity: .8;
+}
+
+.latest-items {
+	display: flex;
+	text-align: left;
+	font-size: 12px;
+	align-items: baseline;
+}
+.latest-items__date {
+	opacity: .8;
+	width: 30%;
+}
+.latest-items__link {
+	width: 45%;
+}
+
+.latest-items__link a {
+	text-decoration: none;
+	color: rgb(163, 53, 238);
+	font-weight: bold;
+}
+.latest-items__response {
+	font-size: 12px;
+	opacity: .8;
+	width: 25%;
 }

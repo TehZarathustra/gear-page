@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Loader from '../Loader';
 import RankingsCard from '../RankingsCard';
+import RaidLog from '../../RaidLog';
 // import ItemTemplate from '../components/ItemTemplate';
 // import RankingsCard from '../components/RankingsCard';
 import classMapper from '../../utils/class-mapper';
@@ -21,7 +22,7 @@ class PlayerCard extends Component {
 			data: {},
 			loading: true,
 			spec: '',
-			loot: [],
+			loot: {},
 			name: props.id,
 			error: ''
 		};
@@ -39,6 +40,9 @@ class PlayerCard extends Component {
 			.catch(() => this.setState({error: 'Something went wrong', loading: false}, () => {
 				setTimeout(() => this.onClose(), 3000);
 			}));
+
+		axios.get(`/items/${name}/`)
+			.then(({data}) => this.setState({loot: data}));
 	}
 
 	onClose() {
@@ -49,8 +53,68 @@ class PlayerCard extends Component {
 		this.setState({spec: item});
 	}
 
+	renderTotalItems(loot) {
+		const {flatData, raids} = loot;
+
+		if (!flatData.length || !raids.length) {
+			return (<div style={{marginTop: '15px', fontSize: '12px'}}>No loot entries yet</div>);
+		}
+
+		const MSItems = RaidLog.getItemsTotal('Mainspec/Need', false, loot);
+		const MCItems = RaidLog.getItemsTotal(false, 'Molten Core-40 Player', loot);
+		const BWLItems = RaidLog.getItemsTotal(false, 'Blackwing Lair-40 Player', loot);
+
+		return (
+			<div style={{marginTop: '15px'}}>
+				{RaidLog.renderSummaryTemplate('Total items', (flatData || raids).length)}
+				{RaidLog.renderSummaryTemplate('Mainspec', MSItems.length)}
+				{RaidLog.renderSummaryTemplate('Molten Core', MSItems.length)}
+				{RaidLog.renderSummaryTemplate('Blackwing Lair', BWLItems.length)}
+			</div>
+		);
+	}
+
+	static latestItemTemplate({date, item, itemName, itemId, response}) {
+		return (
+			<div className="latest-items">
+				<div className="latest-items__date">{date}</div>
+				<div className="latest-items__link">
+					<a
+						href={`https://www.wowhead.com/item=${itemId}`}
+						data-wowhead="domain=classic"
+						target="_blank"
+					>
+						{itemName || item}
+					</a>
+				</div>
+				<div className="latest-items__response">{response}</div>
+			</div>
+		);
+	}
+
+	renderLatestItems(loot, amount) {
+		if (!loot || !loot.flatData || !loot.flatData.length) {
+			return null;
+		}
+
+		const listItems = Object.values({...loot.flatData}).splice(-amount);
+
+		return (
+			<div style={{textAlign: 'left', marginTop: '10px'}}>
+				<div style={{fontSize: '14px'}}>Recent items</div>
+				<div style={{marginTop: '10px'}}>
+					{listItems.map(data => PlayerCard.latestItemTemplate(data))}
+				</div>
+			</div>
+		);
+	}
+
 	renderRankings() {
 		const {data, spec} = this.state;
+
+		if (!data.length) {
+			return null;
+		}
 
 		const specs = Object.values(data.reduce((result, item) => {
 			result[item.spec] = item.spec;
@@ -81,7 +145,7 @@ class PlayerCard extends Component {
 	}
 
 	renderCard() {
-		const {name, data} = this.state;
+		const {name, data, loot} = this.state;
 		const {onClose} = this.props;
 		let color = 'white';
 		let playerClass;
@@ -95,7 +159,7 @@ class PlayerCard extends Component {
 			<div style={{width: '100%'}}>
 				<CloseIcon className="player-card__close" onClick={this.onClose} />
 				<div className="player-card__rankings">
-					<div>
+					<div style={{textAlign: 'left'}}>
 						<a
 							href={`/player/${name}`}
 							className="player-card__name"
@@ -104,12 +168,11 @@ class PlayerCard extends Component {
 							{name}
 						</a>
 						<div className="player-card__class">{playerClass}</div>
+						{this.renderTotalItems(loot)}
 					</div>
 					{this.renderRankings()}
 				</div>
-				{/*<div>
-					Recent items
-				</div>*/}
+				{this.renderLatestItems(loot, 3)}
 			</div>
 		);
 	}

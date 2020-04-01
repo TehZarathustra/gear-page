@@ -81,6 +81,37 @@ function getPlayerRankings(player, zone, req) {
 	return axios.get(url);
 }
 
+function getItemsByPlayer(req, res) {
+	const player = req.param('player');
+
+	return Promise.all([
+			getRows(LOOT_CONFIG_SPARKLES),
+			getRows(SPREADSHEET_CONFIG_ITEMS)
+		])
+		.then((data) => {
+			const [lootLog, itemList] = data;
+			const transformedLog = transformLog(lootLog, itemList);
+			const logByplayer = transformedLog.find(item => item.name === `${player}-Ashbringer`);
+
+			if (logByplayer) {
+				logByplayer.flatData = [...logByplayer.raids];
+				logByplayer.raids = Object.values(logByplayer.raids.reduce((result, item) => {
+					if (result[item.date]) {
+						const itemToSpread = Array.isArray(result[item.date]) ? result[item.date] : [result[item.date]];
+
+						result[item.date] = [...itemToSpread, item];
+					} else {
+						result[item.date] = item;
+					}
+
+					return result;
+				}, {}));
+			}
+
+			return res.json(logByplayer || {raids: [], flatData: []});
+		});
+}
+
 function getRaidLog(req, res) {
 	const player = req.param('player');
 
@@ -126,4 +157,7 @@ function getRaidLog(req, res) {
 		});
 }
 
-module.exports = getRaidLog;
+module.exports = {
+	getRaidLog,
+	getItemsByPlayer
+};
