@@ -165,7 +165,8 @@ function getPlayerList(req, res) {
 		.then((list) => {
 			return res.json(list.filter(player => player[1]
 				&& player[1] === 'Sparkles'
-				|| player[1] === 'Rainbows')
+				|| player[1] === 'Rainbows'
+				|| player[1] === 'Trial')
 				.map((player) => {
 					const [name, raid, level, playerClass] = player;
 
