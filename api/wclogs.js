@@ -23,7 +23,7 @@ function getRankings(req, res) {
 	const player = req.params.player;
 
 	const zone = ZONE_MAPPER[req.params.zone];
-	const url = `${WC_LOGS_URL}rankings/character/${player}/ashbringer/eu?zone=${zone}&api_key=${API_KEY}`;
+	const url = `${WC_LOGS_URL}rankings/character/${encodeURIComponent(player)}/ashbringer/eu?zone=${zone}&api_key=${API_KEY}`;
 
 	return axios.get(url)
 		.then(data => res.json(data.data))
