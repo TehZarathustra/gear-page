@@ -3,8 +3,6 @@ import axios from 'axios';
 import Loader from '../Loader';
 import RankingsCard from '../RankingsCard';
 import RaidLog from '../../RaidLog';
-// import ItemTemplate from '../components/ItemTemplate';
-// import RankingsCard from '../components/RankingsCard';
 import classMapper from '../../utils/class-mapper';
 import CloseIcon from '@material-ui/icons/Close';
 import Radio from '@material-ui/core/Radio';
@@ -56,7 +54,7 @@ class PlayerCard extends Component {
 	renderTotalItems(loot) {
 		const {flatData, raids} = loot;
 
-		if (!flatData.length || !raids.length) {
+		if (!flatData || !flatData.length) {
 			return (<div style={{marginTop: '15px', fontSize: '12px'}}>No loot entries yet</div>);
 		}
 

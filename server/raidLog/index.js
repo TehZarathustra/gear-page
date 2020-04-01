@@ -15,7 +15,10 @@ const {
 	raidIndex,
 	bossIndex
 } = require('./configs');
-const {SPREADSHEET_CONFIG_ITEMS} = require('../wishlist/configs');
+const {
+	SPREADSHEET_CONFIG_ITEMS,
+	SPREADSHEET_CONFIG_PLAYER_LIST
+} = require('../wishlist/configs');
 
 function transformEntryItem(item, itemList) {
 	let enrichedData = {};
@@ -157,7 +160,22 @@ function getRaidLog(req, res) {
 		});
 }
 
+function getPlayerList(req, res) {
+	return getRows(SPREADSHEET_CONFIG_PLAYER_LIST)
+		.then((list) => {
+			return res.json(list.filter(player => player[1]
+				&& player[1] === 'Sparkles'
+				|| player[1] === 'Rainbows')
+				.map((player) => {
+					const [name, raid, level, playerClass] = player;
+
+					return {name, raid, playerClass};
+				}));
+		});
+}
+
 module.exports = {
 	getRaidLog,
-	getItemsByPlayer
+	getItemsByPlayer,
+	getPlayerList
 };
