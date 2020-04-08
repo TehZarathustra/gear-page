@@ -20,10 +20,10 @@ function getParses(req, res) {
 }
 
 function getRankings(req, res) {
-	const player = req.params.player;
+	const {player, zone, metric} = req.params;
 
-	const zone = ZONE_MAPPER[req.params.zone];
-	const url = `${WC_LOGS_URL}rankings/character/${encodeURIComponent(player)}/ashbringer/eu?zone=${zone}&api_key=${API_KEY}`;
+	const instance = ZONE_MAPPER[zone];
+	const url = `${WC_LOGS_URL}rankings/character/${encodeURIComponent(player)}/ashbringer/eu?zone=${instance}&metric=${metric}&api_key=${API_KEY}`;
 
 	return axios.get(url)
 		.then(data => res.json(data.data))
