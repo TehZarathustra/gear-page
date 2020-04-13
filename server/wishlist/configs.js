@@ -1,4 +1,4 @@
-const MC_RAID_SEP_CELL = 15;
+const MC_RAID_SEP_CELL = 13;
 const ONY_RAID_SEP_CELL = 11;
 const BWL_RAID_SEP_CELL = 16;
 const ZG_RAID_SEP_CELL = 11;
@@ -9,7 +9,7 @@ const SPREADSHEET_CONFIG = {
 
 const SPREADSHEET_CONFIG_MC = {
 	...SPREADSHEET_CONFIG,
-	range: 'Molten Core!B4:Z260'
+	range: 'Molten Core!B4:AF260'
 };
 
 const SPREADSHEET_CONFIG_ONY = {
