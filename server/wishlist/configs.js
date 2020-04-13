@@ -19,7 +19,7 @@ const SPREADSHEET_CONFIG_ONY = {
 
 const SPREADSHEET_CONFIG_BWL = {
 	...SPREADSHEET_CONFIG,
-	range: 'Blackwing Lair!A2:Z139'
+	range: 'Blackwing Lair!A2:AF139'
 };
 
 const SPREADSHEET_CONFIG_ZG = {
