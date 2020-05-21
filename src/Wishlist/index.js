@@ -217,7 +217,7 @@ class Wishlist extends Component {
 
               <Autocomplete
                 onChange={this.onTypeChange}
-                options={['Onyxia', 'Molten Core', 'Blackwing Lair', 'ZulGurub']}
+                options={['Onyxia', 'Molten Core', 'Blackwing Lair', 'AhnQiraj']}
                 value={selectedType}
                 getOptionLabel={option => option}
                 style={{width: 300, margin: '5px'}}
