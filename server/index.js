@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const PORT = process.env.PORT || 3000;
 
 const getWishlistData = require('./wishlist');
-const {getRaidLog, getItemsByPlayer, getPlayerList} = require('./raidLog');
+const {getRaidLog, getItemsByPlayer, getPlayerList, getPlayerRankings} = require('./raidLog');
 const {getParses, getRankings} = require('../api/wclogs');
 
 app.use(express.static(path.join(__dirname, '../build')));
@@ -26,6 +26,10 @@ app.get('/players', function (req, res) {
 
 app.get('/ranks', function (req, res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+app.get('/ranks/:zone/:player', function (req, res) {
+	return getPlayerRankings(null, null, req, res);
 });
 
 app.get('/data', function (req, res) {
@@ -52,7 +56,7 @@ app.get('/parses/:zone/:player', function (req, res) {
 	return getParses(req, res);
 });
 
-app.get('/rankings/:zone/:player', function (req, res) {
+app.get('/rankings/:zone/:metric/:player', function (req, res) {
 	return getRankings(req, res);
 });
 

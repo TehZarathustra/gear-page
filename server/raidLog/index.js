@@ -78,10 +78,41 @@ function transformLog(data, itemList) {
 	});
 }
 
-function getPlayerRankings(player, zone, req) {
-	const url = `http://${req.headers.host}/rankings/${zone}/${player}`;
+function getPlayerRankings(player, zone, req, res) {
+	let metric = 'dps';
 
-	return axios.get(url);
+	const paramPlayer = req.param('player');
+	const paramZone = req.param('zone');
+
+	const url = `http://${req.headers.host}/rankings/${zone || paramZone}/${metric}/${player || paramPlayer}`;
+
+	return axios.get(url)
+		.then((dpsData) => {
+			if (dpsData.data.find(({spec}) => spec === 'Healer')) {
+				metric = 'hps';
+				return axios.get(url)
+					.then((hpsData) => {
+						const result = {
+							DPS: dpsData.data,
+							Healer: hpsData.data
+						};
+
+						if (res) {
+							return res.json(result);
+						}
+
+						return result;
+					});
+			}
+
+			const result = {DPS: dpsData.data};
+
+			if (res) {
+				return res.json(result);
+			}
+
+			return result;
+		});
 }
 
 function getItemsByPlayer(req, res) {
@@ -147,9 +178,9 @@ function getRaidLog(req, res) {
 					}, {}));
 
 					logByplayer.rankings = {
-						mc: mcRankings.data,
-						bwl: bwlRankings.data,
-						ony: onyRankings.data
+						mc: mcRankings,
+						bwl: bwlRankings,
+						ony: onyRankings
 					};
 				}
 
@@ -178,5 +209,6 @@ function getPlayerList(req, res) {
 module.exports = {
 	getRaidLog,
 	getItemsByPlayer,
-	getPlayerList
+	getPlayerList,
+	getPlayerRankings
 };
