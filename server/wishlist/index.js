@@ -3,11 +3,11 @@ const {
 	MC_RAID_SEP_CELL,
 	ONY_RAID_SEP_CELL,
 	BWL_RAID_SEP_CELL,
-	ZG_RAID_SEP_CELL,
+	AQ_RAID_SEP_CELL,
 	SPREADSHEET_CONFIG_MC,
 	SPREADSHEET_CONFIG_ONY,
 	SPREADSHEET_CONFIG_BWL,
-	SPREADSHEET_CONFIG_ZG,
+	SPREADSHEET_CONFIG_AQ,
 	SPREADSHEET_CONFIG_PLAYERS,
 	SPREADSHEET_CONFIG_ITEMS,
 	SPREADSHEET_FIELDS_INDEXES
@@ -18,7 +18,7 @@ function transformData(data, type, transformedItems, hasSeparator = true) {
 		'Molten Core': MC_RAID_SEP_CELL,
 		'Onyxia': ONY_RAID_SEP_CELL,
 		'Blackwing Lair': BWL_RAID_SEP_CELL,
-		'ZulGurub': ZG_RAID_SEP_CELL
+		'AhnQiraj': AQ_RAID_SEP_CELL
 	};
 	const raidSepCell = raidMapper[type];
 
@@ -95,17 +95,17 @@ function getWishlistData(req, res) {
 			getRows(SPREADSHEET_CONFIG_PLAYERS),
 			getRows(SPREADSHEET_CONFIG_ITEMS),
 			getRows(SPREADSHEET_CONFIG_BWL),
-			getRows(SPREADSHEET_CONFIG_ZG)
+			getRows(SPREADSHEET_CONFIG_AQ)
 		])
 		.then((data) => {
-			const [mcData, OnyData, players, items, bwlData, zgData] = data;
+			const [mcData, OnyData, players, items, bwlData, aqData] = data;
 			const transformedItems = transformItemsDict(items);
 
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
 				ony: transformData(OnyData, 'Onyxia', transformedItems),
 				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false),
-				zg: transformData(zgData, 'ZulGurub', transformedItems, false),
+				aq: transformData(aqData, 'AhnQiraj', transformedItems, false),
 			};
 
 			res.json({
@@ -113,7 +113,7 @@ function getWishlistData(req, res) {
 					...transformedData.mc,
 					...transformedData.ony,
 					...transformedData.bwl,
-					...transformedData.zg
+					...transformedData.aq
 				},
 				dicts: {
 					players: transformPlayersDict(players),
