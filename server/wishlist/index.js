@@ -1,11 +1,9 @@
 const {getRows} = require('../../api/google-spreadsheet');
 const {
 	MC_RAID_SEP_CELL,
-	ONY_RAID_SEP_CELL,
 	BWL_RAID_SEP_CELL,
 	AQ_RAID_SEP_CELL,
 	SPREADSHEET_CONFIG_MC,
-	SPREADSHEET_CONFIG_ONY,
 	SPREADSHEET_CONFIG_BWL,
 	SPREADSHEET_CONFIG_AQ,
 	SPREADSHEET_CONFIG_PLAYERS,
@@ -16,7 +14,6 @@ const {
 function transformData(data, type, transformedItems, hasSeparator = true) {
 	const raidMapper = {
 		'Molten Core': MC_RAID_SEP_CELL,
-		'Onyxia': ONY_RAID_SEP_CELL,
 		'Blackwing Lair': BWL_RAID_SEP_CELL,
 		'AhnQiraj': AQ_RAID_SEP_CELL
 	};
@@ -91,28 +88,25 @@ function transformItemsDict(dictItems) {
 function getWishlistData(req, res) {
 	return Promise.all([
 			getRows(SPREADSHEET_CONFIG_MC),
-			getRows(SPREADSHEET_CONFIG_ONY),
 			getRows(SPREADSHEET_CONFIG_PLAYERS),
 			getRows(SPREADSHEET_CONFIG_ITEMS),
 			getRows(SPREADSHEET_CONFIG_BWL),
 			getRows(SPREADSHEET_CONFIG_AQ)
 		])
 		.then((data) => {
-			const [mcData, OnyData, players, items, bwlData, aqData] = data;
+			const [mcData, players, items, bwlData, aqData] = data;
 			const transformedItems = transformItemsDict(items);
 
 			const transformedData = {
 				mc: transformData(mcData, 'Molten Core', transformedItems),
-				ony: transformData(OnyData, 'Onyxia', transformedItems),
 				bwl: transformData(bwlData, 'Blackwing Lair', transformedItems, false),
 				aq: transformData(aqData, 'AhnQiraj', transformedItems, false),
 			};
 
 			res.json({
 				data: {
-					...transformedData.mc,
-					...transformedData.ony,
 					...transformedData.bwl,
+					...transformedData.mc,
 					...transformedData.aq
 				},
 				dicts: {
