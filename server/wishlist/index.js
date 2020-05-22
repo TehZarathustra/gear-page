@@ -110,9 +110,9 @@ function getWishlistData(req, res) {
 
 			res.json({
 				data: {
+					...transformedData.bwl,
 					...transformedData.mc,
 					...transformedData.ony,
-					...transformedData.bwl,
 					...transformedData.aq
 				},
 				dicts: {
