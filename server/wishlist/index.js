@@ -105,9 +105,10 @@ function getWishlistData(req, res) {
 
 			res.json({
 				data: {
+					...transformedData.aq,
 					...transformedData.bwl,
-					...transformedData.mc,
-					...transformedData.aq
+					...transformedData.mc
+
 				},
 				dicts: {
 					players: transformPlayersDict(players),
