@@ -4,5 +4,9 @@
 	box-sizing: border-box;
 	padding: 10px;
 	border-radius: 5px;
-	min-width: 320px;
+	max-width: 320px;
+}
+
+.listStyles {
+	margin: 5px;
 }

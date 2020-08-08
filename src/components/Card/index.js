@@ -5,6 +5,7 @@ import ItemTemplate from '../ItemTemplate';
 
 const {
 	container,
+	listStyles
 } = styles;
 
 function enrichPlayers(raid, dicts) {
@@ -14,12 +15,11 @@ function enrichPlayers(raid, dicts) {
 }
 
 function playerListTemplate(raid, name) {
-	return (<div>
-	  <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{name}</div>
-	  {raid.map(player => player && (
-	  	<div style={{color: colors[player.class]}}>
-	  		<a style={{textDecoration: 'none', color: 'inherit'}} href={`/player/${player.name || player}`}>{player.name || player}</a>
-	  	</div>))}
+	return (<div style={{display: 'flex', flexWrap: 'wrap'}}>
+		{raid.map(player => player && (
+		<div style={{color: colors[player.class]}} className={listStyles}>
+			<a style={{textDecoration: 'none', color: 'inherit'}} href={`/player/${player.name || player}`}>{player.name || player}</a>
+		</div>))}
 	</div>);
 }
 
@@ -42,14 +42,10 @@ const Card = (props) => {
 			/>
 			<div style={{
 				fontSize: '16px',
-				display: 'grid',
-				gridTemplateColumns: '40% 40%',
 				textAlign: 'left',
-				gridGap: '20%',
 				padding: '5px'
 			}}>
 				{playerListTemplate(enrichPlayers(data.raid1, dicts), '')}
-				{playerListTemplate(enrichPlayers(data.raid2, dicts), '')}
 			</div>
 		</div>
 	);

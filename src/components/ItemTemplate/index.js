@@ -31,7 +31,8 @@ const ItemTemplate = (props) => {
 					marginLeft: '10px',
 					fontWeight: 'bold',
 					marginRight: '5px',
-					color: icon ? '#a335ee' : 'cornflowerblue'
+					color: icon ? '#a335ee' : 'cornflowerblue',
+					textAlign: 'left'
 				}}
 			>
 				{itemName}
