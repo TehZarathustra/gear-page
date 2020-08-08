@@ -153,7 +153,7 @@ class Wishlist extends Component {
       history.pushState('', '', '/');
     }
 
-    return mutableData.map((card) => {
+    return mutableData.sort((a, b) => b.raid1.length - a.raid1.length).map((card) => {
       return (
         <Card
           key={card.item}
