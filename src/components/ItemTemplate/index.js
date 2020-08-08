@@ -4,7 +4,7 @@ const ItemTemplate = (props) => {
 	const {id, itemName, icon, spec} = props;
 
 	return (
-		<div style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
+		<div style={{display: 'flex', alignItems: 'center', position: 'relative', padding: '10px 10px 0 10px'}}>
 			<div style={{
 				backgroundImage: 'url("https://wow.zamimg.com/images/Icon/large/border/default.png")',
 				width: "68px",
@@ -37,7 +37,7 @@ const ItemTemplate = (props) => {
 			>
 				{itemName}
 			</div>
-			{spec && (<div style={{position: 'absolute', top: '5px', left: '78px', color: '#fff', fontSize: '12px', whiteSpace: 'nowrap'}}>{spec}</div>)}
+			{spec && (<div style={{position: 'absolute', top: '14px', left: '88px', color: '#fff', fontSize: '12px', whiteSpace: 'nowrap', opacity: '50%'}}>{spec}</div>)}
 		</div>
 	)
 }

@@ -15,7 +15,7 @@ function enrichPlayers(raid, dicts) {
 }
 
 function playerListTemplate(raid, name) {
-	return (<div style={{display: 'flex', flexWrap: 'wrap'}}>
+	return (<div style={{display: 'flex', flexWrap: 'wrap', maxWidth: '320px'}}>
 		{raid.map(player => player && (
 		<div style={{color: colors[player.class]}} className={listStyles}>
 			<a style={{textDecoration: 'none', color: 'inherit'}} href={`/player/${player.name || player}`}>{player.name || player}</a>
@@ -39,6 +39,7 @@ const Card = (props) => {
 				id={id}
 				icon={icon}
 				itemName={itemName}
+				spec={data.raid1.length > 1 ? `${data.raid1.length} people need` : ''}
 			/>
 			<div style={{
 				fontSize: '16px',

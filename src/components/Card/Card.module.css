@@ -2,9 +2,8 @@
 	background-color: black;
 	margin: 10px;
 	box-sizing: border-box;
-	padding: 10px;
 	border-radius: 5px;
-	max-width: 320px;
+	min-width: 320px;
 }
 
 .listStyles {
