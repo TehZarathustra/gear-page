@@ -58,12 +58,12 @@ class RaidLog extends Component {
 
 	renderRankingsBySpec(spec, instance, rankings) {
 		const TITLES = {
-			mc: `Molten Core (${spec})`,
-			bwl: `Blackwing Lair (${spec})`,
-			ony: `Onyxia (${spec})`
+			mc: `Molten Core (${spec.spec})`,
+			bwl: `Blackwing Lair (${spec.spec})`,
+			ony: `Onyxia (${spec.spec})`
 		};
 
-		const data = rankings[instance].filter((item) => item.spec === spec);
+		const data = rankings[instance][spec.parse].filter((item) => item.spec === spec.spec);
 
 		if (!data.length) {
 			return null;
@@ -80,7 +80,28 @@ class RaidLog extends Component {
 
 	renderRankings() {
 		const {rankings} = this.state.data;
-		const SPECS = ['Balance', 'DPS', 'Healer', 'Tank', 'Feral'];
+		const SPECS = [
+			{
+				spec: 'Balance',
+				parse: 'DPS'
+			},
+			{
+				spec: 'DPS',
+				parse: 'DPS'
+			},
+			{
+				spec: 'Healer',
+				parse: 'Healer'
+			},
+			{
+				spec: 'Tank',
+				parse: 'DPS'
+			},
+			{
+				spec: 'Feral',
+				parse: 'DPS'
+			}
+		];
 
 		return (
 			<div style={{marginTop: '60px', marginLeft: '20px'}}>
